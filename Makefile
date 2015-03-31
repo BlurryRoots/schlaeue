@@ -1,3 +1,3 @@
 
 run:
-	@swipl -q -l main.pl -g "main, halt"
+	@swipl -q -l src/main.pl -g "main, halt"
