@@ -17,10 +17,15 @@ offspring(Offspring, Parent) :-
 parents(Offspring, Parents) :-
 	findall(Parent, offspring(Offspring, Parent), Parents).
 
+write_list([]).
+write_list([Head | Tail]) :-
+	write(Head), nl,
+	write_list(Tail).
+
 main :-
 	write('Hey there!'),
 	nl,
 	(parents('Karl Heinz', Parents),
-	 write(Parents),
+	 write_list(Parents),
 	 nl)
 	.
