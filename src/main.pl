@@ -13,18 +13,21 @@ mother('Lara Croft', 'Karl Heinz').
 
 father('Otto Normalverbraucher', 'Lara Croft').
 
-offspring(Offspring, Parent) :-
+child(Offspring, Parent) :-
 	father(Parent, Offspring);
 	mother(Parent, Offspring).
 
+grand_child(Offspring, Grandparent) :-
+	child(Offspring, Parent),
+	child(Parent, Grandparent).
+
 parents(Offspring, Parents) :-
-	findall(Parent, offspring(Offspring, Parent), Parents).
+	findall(Parent, child(Offspring, Parent), Parents).
 
 grandparents(Offspring, Grandparents) :-
 	findall(
 		Grandparent,
-		(offspring(Offspring, Parent),
-		 offspring(Parent, Grandparent)),
+		grand_child(Offspring, Grandparent),
 		Grandparents
 	).
 
