@@ -31,6 +31,13 @@ grandparents(Offspring, Grandparents) :-
 		Grandparents
 	).
 
+descendent(Person, Ancestor) :-
+	child(Person, Ancestor);
+	child(Person, AnotherPerson), descendent(AnotherPerson, Ancestor).
+
+ancestors(Person, Ancestors) :-
+	findall(Ancestor, descendent(Person, Ancestor), Ancestors).
+
 write_list([]).
 write_list([Head | Tail]) :-
 	write(Head), nl,
@@ -44,5 +51,9 @@ main :-
 	(grandparents('Karl Heinz', Grandparents)
 	,write('Grandparents of Karl Heinz: ')
 	,write(Grandparents)
+	,nl),
+	(ancestors('Karl Heinz', Ancestors)
+	,write('Ancestors of Karl Heinz: ')
+	,write(Ancestors)
 	,nl)
 	.
