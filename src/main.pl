@@ -1,3 +1,5 @@
+% peanuts as pedigree?
+
 
 person('Lara Croft').
 person('Lucy Lu').
@@ -49,15 +51,15 @@ write_list([Head | Tail]) :-
 
 main :-
 	(parents('Karl Heinz', Parents)
-	,write('Parents of Karl Heinz: ')
-	,write(Parents)
+	,write('Parents of Karl Heinz: '), nl
+	,tab(4), write(Parents)
 	,nl),
 	(grandparents('Karl Heinz', Grandparents)
-	,write('Grandparents of Karl Heinz: ')
-	,write(Grandparents)
+	,write('Grandparents of Karl Heinz: '), nl
+	,tab(4), write(Grandparents)
 	,nl),
 	(ancestors('Karl Heinz', Ancestors)
-	,write('Ancestors of Karl Heinz: ')
-	,write(Ancestors)
+	,write('Ancestors of Karl Heinz: '), nl
+	,tab(4), write(Ancestors)
 	,nl)
 	.
