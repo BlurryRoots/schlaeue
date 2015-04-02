@@ -13,10 +13,13 @@ mother('Lara Croft', 'Karl Heinz').
 
 father('Otto Normalverbraucher', 'Lara Croft').
 
+% is Offspring a child of Parent
 child(Offspring, Parent) :-
-	father(Parent, Offspring);
+	father(Parent, Offspring).
+child(Offspring, Parent) :-
 	mother(Parent, Offspring).
 
+% is Offspring a grandchild of Parent
 grand_child(Offspring, Grandparent) :-
 	child(Offspring, Parent),
 	child(Parent, Grandparent).
@@ -32,7 +35,8 @@ grandparents(Offspring, Grandparents) :-
 	).
 
 descendent(Person, Ancestor) :-
-	child(Person, Ancestor);
+	child(Person, Ancestor).
+descendent(Person, Ancestor) :-
 	child(Person, AnotherPerson), descendent(AnotherPerson, Ancestor).
 
 ancestors(Person, Ancestors) :-
