@@ -1,60 +1,17 @@
 % peanuts as pedigree?
 
+% import module with predicates to query db
+:- use_module(pedigree).
 
-person('Lara Croft').
-person('Lucy Lu').
-person('Sina Rose').
+load_knowledge_base :-
+	consult('src/db').
 
-person('Hans Gruber').
-person('Karl Heinz').
-person('Kurt Bach').
-person('Otto Normalverbraucher').
-
-father('Hans Gruber', 'Karl Heinz').
-mother('Lara Croft', 'Karl Heinz').
-
-father('Otto Normalverbraucher', 'Lara Croft').
-
-% is Offspring a child of Parent
-child(Offspring, Parent) :-
-	father(Parent, Offspring).
-child(Offspring, Parent) :-
-	mother(Parent, Offspring).
-
-% is Offspring a grandchild of Parent
-grand_child(Offspring, Grandparent) :-
-	child(Offspring, Parent),
-	child(Parent, Grandparent).
-
-parents(Offspring, Parents) :-
-	findall(Parent, child(Offspring, Parent), Parents).
-
-grandparents(Offspring, Grandparents) :-
-	findall(
-		Grandparent,
-		grand_child(Offspring, Grandparent),
-		Grandparents
-	).
-
-descendent(Person, Ancestor) :-
-	child(Person, Ancestor).
-descendent(Person, Ancestor) :-
-	child(Person, AnotherPerson), descendent(AnotherPerson, Ancestor).
-
-ancestors(Person, Ancestors) :-
-	findall(Ancestor, descendent(Person, Ancestor), Ancestors).
-
-write_list([]).
-write_list([Head | Tail]) :-
-	write(Head), nl,
-	write_list(Tail).
-
-main :-
+run_queries :-
 	(parents('Karl Heinz', Parents)
 	,write('Parents of Karl Heinz: '), nl
 	,tab(4), write(Parents)
 	,nl),
-	(grandparents('Karl Heinz', Grandparents)
+	(grand_parents('Karl Heinz', Grandparents)
 	,write('Grandparents of Karl Heinz: '), nl
 	,tab(4), write(Grandparents)
 	,nl),
@@ -63,3 +20,6 @@ main :-
 	,tab(4), write(Ancestors)
 	,nl)
 	.
+
+main :-
+	load_knowledge_base, run_queries.
