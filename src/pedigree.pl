@@ -5,7 +5,9 @@
 	parents/2,
 	grand_parents/2,
 	descendent/2,
-	ancestors/2
+	ancestors/2,
+	sibling/2,
+	siblings/2
 ]).
 
 % is Offspring a child of Parent
@@ -36,3 +38,11 @@ descendent(Person, Ancestor) :-
 
 ancestors(Person, Ancestors) :-
 	findall(Ancestor, descendent(Person, Ancestor), Ancestors).
+
+sibling(Person, AnotherPerson) :-
+	dif(Person, AnotherPerson),
+	father(Father, Person), father(Father, AnotherPerson),
+	mother(Mother, Person), mother(Mother, AnotherPerson).
+
+siblings(Person, Siblings) :-
+	findall(Sibling, sibling(Person, Sibling), Siblings).

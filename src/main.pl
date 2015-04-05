@@ -18,6 +18,10 @@ run_queries :-
 	(ancestors('Karl Heinz', Ancestors)
 	,write('Ancestors of Karl Heinz: '), nl
 	,tab(4), write(Ancestors)
+	,nl),
+	(siblings('Karl Heinz', Siblings)
+	,write('Siblings of Karl Heinz: '), nl
+	,tab(4), write(Siblings)
 	,nl)
 	.
 
