@@ -7,7 +7,8 @@
 	descendent/2,
 	ancestors/2,
 	sibling/2,
-	siblings/2
+	siblings/2,
+	parent_sibling/2
 ]).
 
 % is Offspring a child of Parent
@@ -46,3 +47,8 @@ sibling(Person, AnotherPerson) :-
 
 siblings(Person, Siblings) :-
 	findall(Sibling, sibling(Person, Sibling), Siblings).
+
+parent_sibling(Person, ParentSibling) :-
+	dif(Person, ParentSibling),
+	child(Person, Parent),
+	sibling(Parent, ParentSibling).

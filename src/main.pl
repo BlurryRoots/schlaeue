@@ -22,6 +22,10 @@ run_queries :-
 	(siblings('Karl Heinz', Siblings)
 	,write('Siblings of Karl Heinz: '), nl
 	,tab(4), write(Siblings)
+	,nl),
+	(parent_sibling('Karl Heinz', ParentSiblings)
+	,write('ParentSiblings of Karl Heinz'), nl
+	,tab(4), write(ParentSiblings)
 	,nl)
 	.
 
