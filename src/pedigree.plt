@@ -24,7 +24,9 @@ test(grand_parents, [setup(load_dependencies)]) :-
 	assertion(member(ExpectedFather, ActualGrandParents)),
 	assertion(member(ExpectedMother, ActualGrandParents)).
 
-%test(grand_child, [setup(load_dependencies)]) :-
-%	assertion(grand_child('Lucy Lu', 'Sina Rose')).
+test(grand_child, [setup(load_dependencies)]) :-
+	grand_child(ActualGrandChild, 'Sina Rose'),
+	ExpectedGrandChild = 'Karl Heinz',
+	assertion(ExpectedGrandChild = ActualGrandChild).
 
 :- end_tests(pedigree).
