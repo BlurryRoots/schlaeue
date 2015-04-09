@@ -1,10 +1,10 @@
 % peanuts as pedigree?
 
 % import module with predicates to query db
-:- use_module(pedigree).
+%:- use_module(pedigree).
 
 load_knowledge_base :-
-	consult('src/db').
+	consult('src/db'), consult('src/pedigree').
 
 run_queries :-
 	(parents('Karl Heinz', Parents)
