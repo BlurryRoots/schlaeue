@@ -7,23 +7,23 @@ load_knowledge_base :-
 	consult('src/db'), consult('src/pedigree').
 
 run_queries :-
-	(parents('Karl Heinz', Parents)
+	(parents(Parents, 'Karl Heinz')
 	,write('Parents of Karl Heinz: '), nl
 	,tab(4), write(Parents)
 	,nl),
-	(grand_parents('Karl Heinz', Grandparents)
+	(grand_parents(Grandparents, 'Karl Heinz')
 	,write('Grandparents of Karl Heinz: '), nl
 	,tab(4), write(Grandparents)
 	,nl),
-	(ancestors('Karl Heinz', Ancestors)
+	(ancestors(Ancestors, 'Karl Heinz')
 	,write('Ancestors of Karl Heinz: '), nl
 	,tab(4), write(Ancestors)
 	,nl),
-	(siblings('Karl Heinz', Siblings)
+	(siblings(Siblings, 'Karl Heinz')
 	,write('Siblings of Karl Heinz: '), nl
 	,tab(4), write(Siblings)
 	,nl),
-	(parent_sibling('Karl Heinz', ParentSiblings)
+	(parent_sibling(ParentSiblings, 'Karl Heinz')
 	,write('ParentSiblings of Karl Heinz'), nl
 	,tab(4), write(ParentSiblings)
 	,nl)
