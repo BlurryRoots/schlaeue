@@ -1,16 +1,4 @@
 
-:- module(pedigree, [
-	child/2,
-	grand_child/2,
-	parents/2,
-	grand_parents/2,
-	descendent/2,
-	ancestors/2,
-	sibling/2,
-	siblings/2,
-	parent_sibling/2
-]).
-
 % is Offspring a child of Parent
 child(Offspring, Parent) :-
 	father(Parent, Offspring).
@@ -44,6 +32,12 @@ sibling(Person, AnotherPerson) :-
 	dif(Person, AnotherPerson),
 	father(Father, Person), father(Father, AnotherPerson),
 	mother(Mother, Person), mother(Mother, AnotherPerson).
+
+brother(Person, AnotherPerson) :-
+	male(Person), sibling(Person, AnotherPerson).
+
+sister(Person, AnotherPerson) :-
+	female(Person), sibling(Person, AnotherPerson).
 
 siblings(Person, Siblings) :-
 	findall(Sibling, sibling(Person, Sibling), Siblings).

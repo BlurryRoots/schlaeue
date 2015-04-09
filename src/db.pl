@@ -1,12 +1,15 @@
 
-person('Lara Croft').
-person('Lucy Lu').
-person('Sina Rose').
+female('Lara Croft').
+female('Lucy Lu').
+female('Sina Rose').
+female('Karla Kolumna').
+female('Alesya Kracivaya').
 
-person('Hans Gruber').
-person('Karl Heinz').
-person('Kurt Bach').
-person('Otto Normalverbraucher').
+male('Hans Gruber').
+male('Karl Heinz').
+male('Kurt Bach').
+male('Otto Normalverbraucher').
+male('Max Mustermann').
 
 married('Sina Rose', 'Otto Normalverbraucher').
 father('Otto Normalverbraucher', 'Lara Croft').
