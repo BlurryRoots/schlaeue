@@ -1,4 +1,8 @@
 
+:- discontiguous married/2.
+:- discontiguous father/2.
+:- discontiguous mother/2.
+
 female('Lara Croft').
 female('Lucy Lu').
 female('Sina Rose').
@@ -12,13 +16,19 @@ male('Otto Normalverbraucher').
 male('Max Mustermann').
 
 married('Sina Rose', 'Otto Normalverbraucher').
-father('Otto Normalverbraucher', 'Lara Croft').
 mother('Sina Rose', 'Lara Croft').
-father('Otto Normalverbraucher', 'Kurt Bach').
+father('Otto Normalverbraucher', 'Lara Croft').
 mother('Sina Rose', 'Kurt Bach').
+father('Otto Normalverbraucher', 'Kurt Bach').
 
 married('Lara Croft', 'Hans Gruber').
-father('Hans Gruber', 'Karl Heinz').
 mother('Lara Croft', 'Karl Heinz').
-father('Hans Gruber', 'Lucy Lu').
+father('Hans Gruber', 'Karl Heinz').
 mother('Lara Croft', 'Lucy Lu').
+father('Hans Gruber', 'Lucy Lu').
+
+married('Karla Kolumna', 'Kurt Bach').
+mother('Karla Kolumna', 'Alesya Kracivaya').
+father('Kurt Bach', 'Alesya Kracivaya').
+mother('Karla Kolumna', 'Max Mustermann').
+father('Kurt Bach', 'Max Mustermann').
