@@ -15,8 +15,8 @@ parents(Parents, Child) :-
 
 % is Offspring a grandchild of Parent
 grand_child(Grandchild, Grandparent) :-
-	child(Grandchild, Grandparent),
-	child(Grandparent, Grandchild).
+	parent(Parent, Grandchild),
+	parent(Grandparent, Parent).
 
 grand_parents(Grandparents, Grandchild) :-
 	findall(
