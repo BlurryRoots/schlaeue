@@ -2,5 +2,10 @@
 run:
 	@swipl -q -l src/main.pl -g "main, halt"
 
-test:
-	@swipl -q -l src/pedigree.plt -g "run_tests(pedigree), halt"
+TESTS := pedigree.plt
+
+test: $(TESTS)
+	@swipl -q -l src/$^ -g "run_tests(pedigree), halt"
+
+%.plt:
+	@echo "running test for $@"
