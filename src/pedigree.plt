@@ -18,8 +18,11 @@ test(parents, [setup(load_dependencies)]) :-
 
 test(grand_parents, [setup(load_dependencies)]) :-
 	grand_parents(ActualGrandParents, 'Karl Heinz'),
-	ExpectedGrandParents = ['Otto Normalverbraucher', 'Sina Rose'],
-	assertion(grand_parents(ExpectedGrandParents, ActualGrandParents)).
+	ExpectedFather = 'Otto Normalverbraucher',
+	ExpectedMother = 'Sina Rose',
+	assertion(length(ActualGrandParents, 2)),
+	assertion(member(ExpectedFather, ActualGrandParents)),
+	assertion(member(ExpectedMother, ActualGrandParents)).
 
 %test(grand_child, [setup(load_dependencies)]) :-
 %	assertion(grand_child('Lucy Lu', 'Sina Rose')).
