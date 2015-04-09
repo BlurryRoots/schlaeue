@@ -10,6 +10,12 @@ test(child, [setup(load_dependencies)]) :-
 	assertion(child('Lucy Lu', 'Hans Gruber')).
 
 test(parents, [setup(load_dependencies)]) :-
-	assertion(parents('Kurt Bach', ['Otto Normalverbraucher', 'Sina Rose'])).
+	assertion(parents(['Otto Normalverbraucher', 'Sina Rose'], 'Kurt Bach')).
+
+test(grand_parents, [setup(load_dependencies)]) :-
+	assertion(grand_parents(['Otto Normalverbraucher', 'Sina Rose'], 'Karl Heinz')).
+
+test(grand_child, [setup(load_dependencies)]) :-
+	assertion(grand_child('Lucy Lu', 'Sina Rose')).
 
 :- end_tests(pedigree).
