@@ -1,6 +1,6 @@
 
-gender(ID, Gender) :-
-	person(ID, _Name, Gender).
+gender(Name, Gender) :-
+	person(_ID, Name, Gender).
 
 % relationship to descendent
 %
@@ -85,11 +85,13 @@ sister(Person, AnotherPerson) :-
 
 parent_sibling(Person, AnotherPerson) :-
 	dif(Person, AnotherPerson),
-	person(PersonID, Person),
-	person(AnotherPersonID, AnotherPerson),
+	person(PersonID, Person, _PersonGender),
+	person(AnotherPersonID, AnotherPerson, _AnotherPersonGender),
+	person(ParentID, Parent, _ParentGender),
+	person(AnotherParentID, AnotherParent, _AnotherParentGender),
 	parent(ParentID, PersonID),
 	parent(AnotherParentID, AnotherPersonID),
-	sibling(ParentID, AnotherParentID).
+	sibling(Parent, AnotherParent).
 
 parent_sibling_gender_helper(Person, PersonGender, AnotherPerson) :-
 	person(_PersonID, Person, PersonGender),
@@ -101,3 +103,11 @@ nephew(Person, AnotherPerson) :-
 
 niece(Person, AnotherPerson) :-
 	parent_sibling_gender_helper(Person, female, AnotherPerson).
+
+cousin_gender_helper(Person, PersonGender, Cousin) :-
+	gender(Person, PersonGender),
+	parent_sibling(Person, ParentSibling),
+	child(Cousin, ParentSibling).
+
+cousin(Person, Cousin) :-
+	cousin_gender_helper(Person, _PersonGender, Cousin).
