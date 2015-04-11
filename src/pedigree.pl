@@ -5,10 +5,10 @@ child(Child, Parent) :-
 child(Child, Parent) :-
 	mother(Parent, Child).
 
-parent(Parent, Child) :-
-	mother(Parent, Child).
-parent(Parent, Child) :-
-	father(Parent, Child).
+mother(Parent, Child) :-
+	female(Parent), parent(Parent, Child).
+father(Parent, Child) :-
+	male(Parent), parent(Parent, Child).
 
 parents(Parents, Child) :-
 	findall(Parent, child(Child, Parent), Parents).
