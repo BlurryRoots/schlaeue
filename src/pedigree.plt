@@ -6,21 +6,22 @@
 load_dependencies :-
 	consult('src/db.pl'), consult('src/pedigree.pl').
 
-test(child, [setup(load_dependencies)]) :-
-	child(ActualChild, 'Hans Gruber'),
-	ExpectedChild = 'Karl Heinz',
-	assertion(ExpectedChild = ActualChild).
+test(child, [setup(load_dependencies), nondet]) :-
+	children(ActualChildren, 'Hans Koks'),
+	assertion(length(ActualChildren, 2)),
+	assertion(member('Karl Koks', ActualChildren)),
+	assertion(member('Lucy Koks', ActualChildren)).
 
 test(parents, [setup(load_dependencies)]) :-
-	parents(ActualParents, 'Kurt Bach'),
-	ExpectedParents = ['Otto Normalverbraucher', 'Sina Rose'],
+	parents(ActualParents, 'Kurt Normalverbraucher'),
+	ExpectedParents = ['Otto Normalverbraucher', 'Sina Käse'],
 	assertion(ExpectedParents = ActualParents).
 
 test(grand_parents, [setup(load_dependencies)]) :-
-	grand_parents(ActualGrandParents, 'Karl Heinz'),
+	grand_parents(ActualGrandParents, 'Karl Koks'),
 	ExpectedMotherFather = 'Otto Normalverbraucher',
-	ExpectedMotherMother = 'Sina Rose',
-	ExpectedFatherFather = 'Frank Frei',
+	ExpectedMotherMother = 'Sina Käse',
+	ExpectedFatherFather = 'Frank Koks',
 	ExpectedFatherMother = 'Karolina Koks',
 	assertion(length(ActualGrandParents, 4)),
 	assertion(member(ExpectedMotherFather, ActualGrandParents)),
@@ -29,8 +30,11 @@ test(grand_parents, [setup(load_dependencies)]) :-
 	assertion(member(ExpectedFatherMother, ActualGrandParents)).
 
 test(grand_child, [setup(load_dependencies)]) :-
-	grand_child(ActualGrandChild, 'Sina Rose'),
-	ExpectedGrandChild = 'Karl Heinz',
-	assertion(ExpectedGrandChild = ActualGrandChild).
+	grand_children(ActualGrandchildren, 'Sina Käse'),
+	assertion(length(ActualGrandchildren, 4)),
+	assertion(member('Max Kolumna', ActualGrandchildren)),
+	assertion(member('Alesya Kolumna', ActualGrandchildren)),
+	assertion(member('Karl Koks', ActualGrandchildren)),
+	assertion(member('Lucy Koks2', ActualGrandchildren)).
 
 :- end_tests(pedigree).
