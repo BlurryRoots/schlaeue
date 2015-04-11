@@ -1,13 +1,20 @@
 
+gender(ID, Gender) :-
+	person(ID, _Name, Gender).
+
+% relationship to descendent
+%
+
+parent_gender_helper(Parent, ParentGender, Child) :-
+	person(ParentID, Parent, ParentGender),
+	person(ChildID, Child, _ChildGender),
+	parent(ParentID, ChildID).
+
 % father and mother
 mother(Parent, Child) :-
-	person(ParentID, Parent),
-	person(ChildID, Child),
-	female(ParentID), parent(ParentID, ChildID).
+	parent_gender_helper(Parent, female, Child).
 father(Parent, Child) :-
-	person(ParentID, Parent),
-	person(ChildID, Child),
-	male(ParentID), parent(ParentID, ChildID).
+	parent_gender_helper(Parent, male, Child).
 
 % is Offspring a child of Parent
 child(Child, Parent) :-
@@ -21,10 +28,18 @@ parents(Parents, Child) :-
 children(Children, Parent) :-
 	findall(Child, child(Child, Parent), Children).
 
+descendent(Person, Ancestor) :-
+	child(Person, Ancestor).
+descendent(Person, Ancestor) :-
+	child(Person, AnotherPerson), descendent(AnotherPerson, Ancestor).
+
+ancestors(Ancestors, Person) :-
+	findall(Ancestor, descendent(Person, Ancestor), Ancestors).
+
 % is Offspring a grandchild of Parent
 grand_child(Grandchild, Grandparent) :-
-	person(GrandchildID, Grandchild),
-	person(GrandparentID, Grandparent),
+	person(GrandchildID, Grandchild, _GrandchildGender),
+	person(GrandparentID, Grandparent, _GrandparentGender),
 	parent(ParentID, GrandchildID),
 	parent(GrandparentID, ParentID).
 
@@ -42,13 +57,8 @@ grand_children(Grandchildren, Grandparent) :-
 		Grandchildren
 	).
 
-descendent(Person, Ancestor) :-
-	child(Person, Ancestor).
-descendent(Person, Ancestor) :-
-	child(Person, AnotherPerson), descendent(AnotherPerson, Ancestor).
-
-ancestors(Ancestors, Person) :-
-	findall(Ancestor, descendent(Person, Ancestor), Ancestors).
+% relationship to siblings
+%
 
 sibling(Person, AnotherPerson) :-
 	dif(Person, AnotherPerson),
@@ -58,25 +68,36 @@ sibling(Person, AnotherPerson) :-
 siblings(Siblings, Person) :-
 	findall(Sibling, sibling(Person, Sibling), Siblings).
 
+sibling_gender_helper(Person, PersonGender, AnotherPerson) :-
+	person(_PersonID, Person, PersonGender),
+	person(_AnotherPersonID, AnotherPerson, _AnotherPersonGender),
+	sibling(Person, AnotherPerson).
+
 brother(Person, AnotherPerson) :-
-	male(Person), sibling(Person, AnotherPerson).
+	sibling_gender_helper(Person, male, AnotherPerson).
 
 sister(Person, AnotherPerson) :-
-	female(Person), sibling(Person, AnotherPerson).
+	sibling_gender_helper(Person, female, AnotherPerson).
+
+
+% relationship to siblings of parents
+%
 
 parent_sibling(Person, AnotherPerson) :-
+	dif(Person, AnotherPerson),
 	person(PersonID, Person),
 	person(AnotherPersonID, AnotherPerson),
 	parent(ParentID, PersonID),
 	parent(AnotherParentID, AnotherPersonID),
 	sibling(ParentID, AnotherParentID).
 
-niece(Person, AnotherPerson) :-
-	female(Person),
-	dif(Person, AnotherPerson),
+parent_sibling_gender_helper(Person, PersonGender, AnotherPerson) :-
+	person(_PersonID, Person, PersonGender),
+	person(_AnotherPersonID, AnotherPerson, _AnotherPersonGender),
 	parent_sibling(Person, AnotherPerson).
 
 nephew(Person, AnotherPerson) :-
-	male(Person),
-	dif(Person, AnotherPerson),
-	parent_sibling(Person, AnotherPerson).
+	parent_sibling_gender_helper(Person, male, AnotherPerson).
+
+niece(Person, AnotherPerson) :-
+	parent_sibling_gender_helper(Person, female, AnotherPerson).
