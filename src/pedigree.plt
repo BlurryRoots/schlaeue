@@ -35,6 +35,6 @@ test(grand_child, [setup(load_dependencies)]) :-
 	assertion(member('Max Kolumna', ActualGrandchildren)),
 	assertion(member('Alesya Kolumna', ActualGrandchildren)),
 	assertion(member('Karl Koks', ActualGrandchildren)),
-	assertion(member('Lucy Koks2', ActualGrandchildren)).
+	assertion(member('Lucy Koks', ActualGrandchildren)).
 
 :- end_tests(pedigree).
