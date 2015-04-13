@@ -18,6 +18,7 @@ person(12, 'Kurt Normalverbraucher', male).
 person(13, 'Hans Koks', male).
 person(14, 'Max Kolumna', male).
 person(15, 'Karl Koks', male).
+person(16, 'Bernd Normalverbraucher', male).
 
 % define married couples
 married(1, 8).
@@ -36,6 +37,8 @@ parent(2, 5).
 parent(9, 5).
 parent(2, 12).
 parent(9, 12).
+parent(2, 16).
+parent(9, 16).
 % define children of Karolina & Frank
 parent(3, 13).
 parent(11, 13).

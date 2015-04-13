@@ -79,6 +79,20 @@ brother(Person, AnotherPerson) :-
 sister(Person, AnotherPerson) :-
 	sibling_gender_helper(Person, female, AnotherPerson).
 
+% relationship to siblings partners
+%
+
+in_law_gender_helper(Person, PersonGender, AnotherPerson) :-
+	person(_PersonID, Person, PersonGender),
+	person(AnotherPersonID, AnotherPerson, _AnotherPersonGender),
+	person(SiblingID, Sibling, _SiblingGender),
+	sibling(Person, Sibling), married(SiblingID, AnotherPersonID).
+
+brother_in_law(Person, AnotherPerson) :-
+	in_law_gender_helper(Person, male, AnotherPerson).
+
+sister_in_law(Person, AnotherPerson) :-
+	in_law_gender_helper(Person, female, AnotherPerson).
 
 % relationship to siblings of parents
 %
