@@ -19,6 +19,7 @@ person(13, 'Hans Koks', male).
 person(14, 'Max Kolumna', male).
 person(15, 'Karl Koks', male).
 person(16, 'Bernd Normalverbraucher', male).
+person(17, 'Erna Käse', female).
 
 % define married couples
 married(1, 8).
@@ -32,6 +33,8 @@ parent(1, 2).
 parent(8, 2).
 parent(1, 10).
 parent(8, 10).
+parent(1, 17).
+parent(8, 17).
 % define children of Sina & Tom
 parent(2, 5).
 parent(9, 5).

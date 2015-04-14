@@ -168,4 +168,4 @@ grand_uncle(Granduncle, Person) :-
 
 grand_aunt(Grandaunt, Person) :-
 	child(Person, Parent),
-	uncle(Grandaunt, Parent).
+	aunt(Grandaunt, Parent).
