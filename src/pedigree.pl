@@ -154,7 +154,7 @@ uncle(Uncle, Person) :-
 	parent_sibling_gender_helper(Uncle, male, Person, _PersonGender).
 
 aunt(Aunt, Person) :-
-	parent_sibling_gender_helper(Aunt, male, Person, _PersonGender).
+	parent_sibling_gender_helper(Aunt, female, Person, _PersonGender).
 
 nephew(Nephew, Person) :-
 	parent_sibling_gender_helper(Person, male, Nephew, male).
