@@ -36,12 +36,24 @@ descendent(Person, Ancestor) :-
 ancestors(Ancestors, Person) :-
 	findall(Ancestor, descendent(Person, Ancestor), Ancestors).
 
-% is Offspring a grandchild of Parent
-grand_child(Grandchild, Grandparent) :-
-	person(GrandchildID, Grandchild, _GrandchildGender),
-	person(GrandparentID, Grandparent, _GrandparentGender),
+grand_child_raw_helper(GrandchildID, GrandparentID) :-
 	parent(ParentID, GrandchildID),
 	parent(GrandparentID, ParentID).
+
+grand_child_gender_helper(
+	Grandchild, GrandchildGender,
+	Grandparent, GrandparentGender
+) :-
+	person(GrandchildID, Grandchild, GrandchildGender),
+	person(GrandparentID, Grandparent, GrandparentGender),
+	grand_child_raw_helper(GrandchildID, GrandparentID).
+
+% is Offspring a grandchild of Parent
+grand_child(Grandchild, Grandparent) :-
+	grand_child_gender_helper(
+		Grandchild, _GrandchildGender,
+		Grandparent, _GrandparentGender
+	).
 
 grand_father(Grandfather, Person) :-
 	true.
