@@ -56,16 +56,28 @@ grand_child(Grandchild, Grandparent) :-
 	).
 
 grand_father(Grandfather, Person) :-
-	true.
+	grand_child_gender_helper(
+		Person, _GrandchildGender,
+		Grandfather, male
+	).
 
 grand_mother(Grandmother, Person) :-
-	true.
+	grand_child_gender_helper(
+		Person, _GrandchildGender,
+		Grandfather, female
+	).
 
 grand_son(Grandson, Person) :-
-	true.
+	grand_child_gender_helper(
+		Grandson, male,
+		Person, _GrandparentGender
+	).
 
 grand_daughter(GrandDaughter, Person) :-
-	true.
+	grand_child_gender_helper(
+		GrandDaughter, female,
+		Person, _GrandparentGender
+	).
 
 grand_parents(Grandparents, Grandchild) :-
 	findall(
