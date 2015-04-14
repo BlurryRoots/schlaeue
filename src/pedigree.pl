@@ -141,18 +141,23 @@ cousin(Cousin, Person) :-
 	child(Person, PersonParent),
 	sibling(CousinParent, PersonParent).
 
-uncle(Uncle, Person) :-
-	gender_helper(Uncle, male),
+parent_sibling_gender_helper(
+	ParentSibling, ParentSiblingGender,
+	Person, PersonGender
+) :-
+	gender_helper(ParentSibling, ParentSiblingGender),
+	gender_helper(Person, PersonGender),
 	child(Person, PersonParent),
-	sibling(Uncle, PersonParent).
+	sibling(ParentSibling, PersonParent).
+
+uncle(Uncle, Person) :-
+	parent_sibling_gender_helper(Uncle, male, Person, _PersonGender).
 
 aunt(Aunt, Person) :-
-	gender_helper(Aunt, female),
-	child(Person, PersonParent),
-	sibling(Aunt, PersonParent).
+	parent_sibling_gender_helper(Aunt, male, Person, _PersonGender).
 
 nephew(Nephew, Person) :-
-	false.
+	parent_sibling_gender_helper(Person, male, Nephew, male).
 
 niece(Niece, Person) :-
-	false.
+	parent_sibling_gender_helper(Person, male, Niece, female).
