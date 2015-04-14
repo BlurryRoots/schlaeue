@@ -161,3 +161,11 @@ nephew(Nephew, Person) :-
 
 niece(Niece, Person) :-
 	parent_sibling_gender_helper(Person, male, Niece, female).
+
+grand_uncle(Granduncle, Person) :-
+	child(Person, Parent),
+	uncle(Granduncle, Parent).
+
+grand_aunt(Grandaunt, Person) :-
+	child(Person, Parent),
+	uncle(Grandaunt, Parent).
