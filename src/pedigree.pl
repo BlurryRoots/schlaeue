@@ -1,5 +1,5 @@
 
-gender(Name, Gender) :-
+gender_helper(Name, Gender) :-
 	person(_ID, Name, Gender).
 
 % relationship to descendent
@@ -109,8 +109,7 @@ siblings(Siblings, Person) :-
 	findall(Sibling, sibling(Person, Sibling), Siblings).
 
 sibling_gender_helper(Person, PersonGender, AnotherPerson) :-
-	person(_PersonID, Person, PersonGender),
-	person(_AnotherPersonID, AnotherPerson, _AnotherPersonGender),
+	gender_helper(Person, PersonGender),
 	sibling(Person, AnotherPerson).
 
 brother(Person, AnotherPerson) :-
@@ -137,18 +136,10 @@ sister_in_law(Person, AnotherPerson) :-
 % relationship to siblings of parents
 %
 
-parent_sibling_gender_helper(ParnetSibling, ParnetSiblingGender, AnotherPerson, AnotherPersonGender) :-
-	dif(ParnetSibling, AnotherPerson),
-	person(ParnetSiblingID, ParnetSibling, ParnetSiblingGender),
-	person(AnotherPersonID, AnotherPerson, AnotherPersonGender),
-	person(ParentID, Parent, _ParentGender),
-	person(AnotherParentID, AnotherParent, _AnotherParentGender),
-	parent(ParentID, ParnetSiblingID),
-	parent(AnotherParentID, AnotherPersonID),
-	sibling(Parent, AnotherParent).
-
 cousin(Cousin, Person) :-
-	parent_sibling_gender_helper(Cousin, _CousinGender, Person).
+	child(Cousin, CousinParent),
+	child(Person, PersonParent),
+	sibling(CousinParent, PersonParent).
 
 uncle(Uncle, Person) :-
 	false.
