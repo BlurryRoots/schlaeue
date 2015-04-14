@@ -43,6 +43,18 @@ grand_child(Grandchild, Grandparent) :-
 	parent(ParentID, GrandchildID),
 	parent(GrandparentID, ParentID).
 
+grand_father(Grandfather, Person) :-
+	true.
+
+grand_mother(Grandmother, Person) :-
+	true.
+
+grand_son(Grandson, Person) :-
+	true.
+
+grand_daughter(GrandDaughter, Person) :-
+	true.
+
 grand_parents(Grandparents, Grandchild) :-
 	findall(
 		Grandparent,
@@ -112,16 +124,22 @@ parent_sibling_gender_helper(Person, PersonGender, AnotherPerson) :-
 	person(_AnotherPersonID, AnotherPerson, _AnotherPersonGender),
 	parent_sibling(Person, AnotherPerson).
 
-nephew(Person, AnotherPerson) :-
-	parent_sibling_gender_helper(Person, male, AnotherPerson).
+uncle(Uncle, Person) :-
+	true.
 
-niece(Person, AnotherPerson) :-
-	parent_sibling_gender_helper(Person, female, AnotherPerson).
+aunt(Aunt, Person) :-
+	true.
 
-cousin_gender_helper(Person, PersonGender, Cousin) :-
-	gender(Person, PersonGender),
-	parent_sibling(Person, ParentSibling),
-	child(Cousin, ParentSibling).
+nephew(Nephew, Person) :-
+	parent_sibling_gender_helper(Nephew, male, Person).
 
-cousin(Person, Cousin) :-
-	cousin_gender_helper(Person, _PersonGender, Cousin).
+niece(Niece, Person) :-
+	parent_sibling_gender_helper(Niece, female, Person).
+
+cousin_gender_helper(Cousin, CousinGender, Person) :-
+	gender(Cousin, CousinGender),
+	parent_sibling(Cousin, ParentSibling),
+	child(Person, ParentSibling).
+
+cousin(Cousin, Person) :-
+	cousin_gender_helper(Cousin, _CousinGender, Person).
