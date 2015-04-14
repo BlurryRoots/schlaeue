@@ -39,8 +39,9 @@ test(children, [setup(load_dependencies), nondet]) :-
 
 test(parents, [setup(load_dependencies)]) :-
 	parents(ActualParents, 'Kurt Normalverbraucher'),
-	ExpectedParents = ['Otto Normalverbraucher', 'Sina Käse'],
-	assertion(ExpectedParents = ActualParents).
+	assertion(length(ActualParents, 2)),
+	assertion(member('Otto Normalverbraucher', ActualParents)),
+	assertion(member('Sina Käse', ActualParents)).
 
 test(grand_parents, [setup(load_dependencies)]) :-
 	grand_parents(ActualGrandParents, 'Karl Koks'),

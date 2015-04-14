@@ -5,22 +5,26 @@ gender(Name, Gender) :-
 % relationship to descendent
 %
 
-parent_gender_helper(Parent, ParentGender, Child) :-
+parent_gender_helper(Parent, ParentGender, Child, ChildGender) :-
 	person(ParentID, Parent, ParentGender),
-	person(ChildID, Child, _ChildGender),
+	person(ChildID, Child, ChildGender),
 	parent(ParentID, ChildID).
 
 % father and mother
 mother(Parent, Child) :-
-	parent_gender_helper(Parent, female, Child).
+	parent_gender_helper(Parent, female, Child, _ChildGender).
 father(Parent, Child) :-
-	parent_gender_helper(Parent, male, Child).
+	parent_gender_helper(Parent, male, Child, _ChildGender).
 
 % is Offspring a child of Parent
 child(Child, Parent) :-
-	father(Parent, Child).
-child(Child, Parent) :-
-	mother(Parent, Child).
+	parent_gender_helper(Parent, _ParentGender, Child, _ChildGender).
+
+son(Son, Parent) :-
+	parent_gender_helper(Parent, _ParentGender, Son, male).
+
+daughter(Daughter, Parent) :-
+	parent_gender_helper(Parent, _ParentGender, Daughter, female).
 
 parents(Parents, Child) :-
 	findall(Parent, child(Child, Parent), Parents).
@@ -36,6 +40,7 @@ descendent(Person, Ancestor) :-
 ancestors(Ancestors, Person) :-
 	findall(Ancestor, descendent(Person, Ancestor), Ancestors).
 
+% is Offspring a grandchild of Parent
 grand_child_raw_helper(GrandchildID, GrandparentID) :-
 	parent(ParentID, GrandchildID),
 	parent(GrandparentID, ParentID).
@@ -48,7 +53,6 @@ grand_child_gender_helper(
 	person(GrandparentID, Grandparent, GrandparentGender),
 	grand_child_raw_helper(GrandchildID, GrandparentID).
 
-% is Offspring a grandchild of Parent
 grand_child(Grandchild, Grandparent) :-
 	grand_child_gender_helper(
 		Grandchild, _GrandchildGender,
@@ -64,7 +68,7 @@ grand_father(Grandfather, Person) :-
 grand_mother(Grandmother, Person) :-
 	grand_child_gender_helper(
 		Person, _GrandchildGender,
-		Grandfather, female
+		Grandmother, female
 	).
 
 grand_son(Grandson, Person) :-
