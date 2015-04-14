@@ -137,37 +137,27 @@ sister_in_law(Person, AnotherPerson) :-
 % relationship to siblings of parents
 %
 
-parent_sibling(Person, AnotherPerson) :-
-	dif(Person, AnotherPerson),
-	person(PersonID, Person, _PersonGender),
-	person(AnotherPersonID, AnotherPerson, _AnotherPersonGender),
+parent_sibling_gender_helper(ParnetSibling, ParnetSiblingGender, AnotherPerson, AnotherPersonGender) :-
+	dif(ParnetSibling, AnotherPerson),
+	person(ParnetSiblingID, ParnetSibling, ParnetSiblingGender),
+	person(AnotherPersonID, AnotherPerson, AnotherPersonGender),
 	person(ParentID, Parent, _ParentGender),
 	person(AnotherParentID, AnotherParent, _AnotherParentGender),
-	parent(ParentID, PersonID),
+	parent(ParentID, ParnetSiblingID),
 	parent(AnotherParentID, AnotherPersonID),
 	sibling(Parent, AnotherParent).
 
-parent_sibling_gender_helper(Person, PersonGender, AnotherPerson) :-
-	person(_PersonID, Person, PersonGender),
-	person(_AnotherPersonID, AnotherPerson, _AnotherPersonGender),
-	parent_sibling(Person, AnotherPerson).
+cousin(Cousin, Person) :-
+	parent_sibling_gender_helper(Cousin, _CousinGender, Person).
 
 uncle(Uncle, Person) :-
-	true.
+	false.
 
 aunt(Aunt, Person) :-
-	true.
+	false.
 
 nephew(Nephew, Person) :-
-	parent_sibling_gender_helper(Nephew, male, Person).
+	false.
 
 niece(Niece, Person) :-
-	parent_sibling_gender_helper(Niece, female, Person).
-
-cousin_gender_helper(Cousin, CousinGender, Person) :-
-	gender(Cousin, CousinGender),
-	parent_sibling(Cousin, ParentSibling),
-	child(Person, ParentSibling).
-
-cousin(Cousin, Person) :-
-	cousin_gender_helper(Cousin, _CousinGender, Person).
+	false.
