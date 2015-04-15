@@ -73,6 +73,7 @@ digraph GRAMPS_graph
   I0010 [ shape="box" fillcolor="#ffe0e0" style="solid,filled" label="Karla Kolumna" ];
   I0012 [ shape="box" fillcolor="#ffe0e0" style="solid,filled" label="Alesya Kolumna" ];
   I0016 [ shape="box" fillcolor="#e0e0ff" style="solid,filled" label="Bernd Normalverbraucher" ];
+  I0017 [ shape="box" fillcolor="#ffe0e0" style="solid,filled" label="Erna Käse" ];
   F0000 -> I0003 [ style=solid arrowhead=normal arrowtail=none dir=both ];
   F0001 -> I0005 [ style=solid arrowhead=normal arrowtail=none dir=both ];
   F0001 -> I0006 [ style=solid arrowhead=normal arrowtail=none dir=both ];
@@ -83,5 +84,6 @@ digraph GRAMPS_graph
   F0002 -> I0009 [ style=solid arrowhead=normal arrowtail=none dir=both ];
   F0003 -> I0012 [ style=solid arrowhead=normal arrowtail=none dir=both ];
   F0001 -> I0016 [ style=solid arrowhead=normal arrowtail=none dir=both ];
+  F0000 -> I0017 [ style=solid arrowhead=normal arrowtail=none dir=both ];
 }
 
