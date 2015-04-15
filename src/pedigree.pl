@@ -2,6 +2,15 @@
 gender_helper(Name, Gender) :-
 	person(_ID, Name, Gender).
 
+marriage_partner(Partner, AnotherPartner) :-
+	person(PartnerID, Partner, _PartnerGender),
+	person(AnotherPartnerID, AnotherPartner, _AnotherPartnerGender),
+	married(PartnerID, AnotherPartnerID).
+marriage_partner(Partner, AnotherPartner) :-
+	person(PartnerID, Partner, _PartnerGender),
+	person(AnotherPartnerID, AnotherPartner, _AnotherPartnerGender),
+	married(AnotherPartnerID, PartnerID).
+
 % relationship to descendent
 %
 
@@ -121,17 +130,22 @@ sister(Person, AnotherPerson) :-
 % relationship to siblings partners
 %
 
-in_law_gender_helper(Person, PersonGender, AnotherPerson) :-
-	person(_PersonID, Person, PersonGender),
-	person(AnotherPersonID, AnotherPerson, _AnotherPersonGender),
-	person(SiblingID, Sibling, _SiblingGender),
-	sibling(Person, Sibling), married(SiblingID, AnotherPersonID).
+in_law(InLaw, Person) :-
+	marriage_partner(InLaw, InLawPartner),
+	sibling(InLawPartner, Person).
+in_law(InLaw, Person) :-
+	marriage_partner(Person, PersonPartner),
+	sibling(InLaw, PersonPartner).
 
-brother_in_law(Person, AnotherPerson) :-
-	in_law_gender_helper(Person, male, AnotherPerson).
+in_law_gender_helper(InLaw, InLawGender, Person) :-
+	gender_helper(InLaw, InLawGender),
+	in_law(InLaw, Person).
 
-sister_in_law(Person, AnotherPerson) :-
-	in_law_gender_helper(Person, female, AnotherPerson).
+brother_in_law(BrotherInLaw, Person) :-
+	in_law_gender_helper(BrotherInLaw, male, Person).
+
+sister_in_law(SisterInLaw, Person) :-
+	in_law_gender_helper(SisterInLaw, female, Person).
 
 % relationship to siblings of parents
 %
@@ -157,10 +171,10 @@ aunt(Aunt, Person) :-
 	parent_sibling_gender_helper(Aunt, female, Person, _PersonGender).
 
 nephew(Nephew, Person) :-
-	parent_sibling_gender_helper(Person, male, Nephew, male).
+	parent_sibling_gender_helper(Person, _PersonGender, Nephew, male).
 
 niece(Niece, Person) :-
-	parent_sibling_gender_helper(Person, male, Niece, female).
+	parent_sibling_gender_helper(Person, _PersonGender, Niece, female).
 
 grand_uncle(Granduncle, Person) :-
 	child(Person, Parent),
