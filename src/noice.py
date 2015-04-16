@@ -7,8 +7,8 @@ def do_lecture_stuff (prolog):
         print (entry)
 
 def do_pedigree_stuff (prolog):
-    prolog.consult("src/db")
-    prolog.consult("src/pedigree")
+    prolog.consult ("src/db")
+    prolog.consult ("src/pedigree")
     ancestor = "'Karla Kolumna'"
     for result in prolog.query ("descendent(D, %s)." % ancestor):
         print (result)
