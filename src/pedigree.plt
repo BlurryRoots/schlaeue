@@ -127,7 +127,6 @@ test(grand_uncle, [setup(load_dependencies)]) :-
 	),
 	assertion(member('Tom Käse', ActualGrandUncles)).
 
-
 test(grand_aunt, [setup(load_dependencies)]) :-
 	findall(
 		GrandAunt,
@@ -135,6 +134,14 @@ test(grand_aunt, [setup(load_dependencies)]) :-
 		ActualGrandAunts
 	),
 	assertion(member('Erna Käse', ActualGrandAunts)).
+
+test(in_law_siblings, [setup(load_dependencies)]) :-
+	findall(
+		InLawSibling,
+		in_law_sibling(InLawSibling, 'Karla Kolumna'),
+		ActualInLawSiblings
+	),
+	assertion(member('Hans Koks', ActualInLawSiblings)).
 
 %test(in_law, [setup(load_dependencies)]) :-
 %	sister_in_law(ActualSisterInLaw, 'Hans Koks'),
