@@ -53,3 +53,20 @@ ggt(A, B, T) :-
 	ggt(B, A, T).
 
 suicide :- halt.
+
+mm(E, [E | _]).
+mm(E, [_ | R]) :-
+	mm(E, R).
+
+has_car(andy, gm_hummer).
+has_car(roland, honda_jazz).
+has_car(sabine, ford_cougar).
+
+car_of([], []).
+car_of([Person | RestPerson], [Car | RestCar]) :-
+	has_car(Person, Car),
+	car_of(RestPerson, RestCar).
+
+%univ awesome!
+% Functor =.. CallList.
+% Functor =.. [Functor, Arg1, Arg2].
