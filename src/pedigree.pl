@@ -147,6 +147,11 @@ brother_in_law(BrotherInLaw, Person) :-
 sister_in_law(SisterInLaw, Person) :-
 	in_law_gender_helper(SisterInLaw, female, Person).
 
+in_law_sibling(InLawSibling, Person) :-
+	marriage_partner(Person, PersonPartner),
+	marriage_partner(InLawSibling, InLawSiblingPartner),
+	sibling(PersonParent, InLawSiblingPartner).
+
 % relationship to siblings of parents
 %
 
