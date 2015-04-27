@@ -7,48 +7,48 @@ load_dependencies :-
 	consult('src/db.pl'), consult('src/pedigree.pl').
 
 test(siblings, [setup(load_dependencies)]) :-
-	siblings(ActualSiblings, 'Kurt Normalverbraucher'),
+	siblings(ActualSiblings, kurt),
 	assertion(length(ActualSiblings, 2)),
-	assertion(member('Lara Normalverbraucher', ActualSiblings)),
-	assertion(member('Bernd Normalverbraucher', ActualSiblings)).
+	assertion(member(lara, ActualSiblings)),
+	assertion(member(bernd, ActualSiblings)).
 
 test(brothers, [setup(load_dependencies)]) :-
 	findall(
 		Brother,
-		brother(Brother, 'Lara Normalverbraucher'),
+		brother(Brother, lara),
 		ActualBrothers
 	),
 	assertion(length(ActualBrothers, 2)),
-	assertion(member('Kurt Normalverbraucher', ActualBrothers)),
-	assertion(member('Bernd Normalverbraucher', ActualBrothers)).
+	assertion(member(kurt, ActualBrothers)),
+	assertion(member(bernd, ActualBrothers)).
 
 test(sisters, [setup(load_dependencies)]) :-
 	findall(
 		Sister,
-		sister(Sister, 'Bernd Normalverbraucher'),
+		sister(Sister, bernd),
 		ActualSisters
 	),
 	assertion(length(ActualSisters, 1)),
-	assertion(member('Lara Normalverbraucher', ActualSisters)).
+	assertion(member(lara, ActualSisters)).
 
 test(children, [setup(load_dependencies), nondet]) :-
-	children(ActualChildren, 'Hans Koks'),
+	children(ActualChildren, hans),
 	assertion(length(ActualChildren, 2)),
-	assertion(member('Karl Koks', ActualChildren)),
-	assertion(member('Lucy Koks', ActualChildren)).
+	assertion(member(karl, ActualChildren)),
+	assertion(member(lucy, ActualChildren)).
 
 test(parents, [setup(load_dependencies)]) :-
-	parents(ActualParents, 'Kurt Normalverbraucher'),
+	parents(ActualParents, kurt),
 	assertion(length(ActualParents, 2)),
-	assertion(member('Otto Normalverbraucher', ActualParents)),
-	assertion(member('Sina Käse', ActualParents)).
+	assertion(member(otto, ActualParents)),
+	assertion(member(sina, ActualParents)).
 
 test(grand_parents, [setup(load_dependencies)]) :-
-	grand_parents(ActualGrandParents, 'Karl Koks'),
-	ExpectedMotherFather = 'Otto Normalverbraucher',
-	ExpectedMotherMother = 'Sina Käse',
-	ExpectedFatherFather = 'Frank Koks',
-	ExpectedFatherMother = 'Karolina Koks',
+	grand_parents(ActualGrandParents, karl),
+	ExpectedMotherFather = otto,
+	ExpectedMotherMother = sina,
+	ExpectedFatherFather = frank,
+	ExpectedFatherMother = karolina,
 	assertion(length(ActualGrandParents, 4)),
 	assertion(member(ExpectedMotherFather, ActualGrandParents)),
 	assertion(member(ExpectedMotherMother, ActualGrandParents)),
@@ -56,96 +56,91 @@ test(grand_parents, [setup(load_dependencies)]) :-
 	assertion(member(ExpectedFatherMother, ActualGrandParents)).
 
 test(grand_child, [setup(load_dependencies)]) :-
-	grand_children(ActualGrandchildren, 'Sina Käse'),
+	grand_children(ActualGrandchildren, sina),
 	assertion(length(ActualGrandchildren, 4)),
-	assertion(member('Max Kolumna', ActualGrandchildren)),
-	assertion(member('Alesya Kolumna', ActualGrandchildren)),
-	assertion(member('Karl Koks', ActualGrandchildren)),
-	assertion(member('Lucy Koks', ActualGrandchildren)).
+	assertion(member(max, ActualGrandchildren)),
+	assertion(member(alesya, ActualGrandchildren)),
+	assertion(member(karl, ActualGrandchildren)),
+	assertion(member(lucy, ActualGrandchildren)).
 
 test(brother_in_law, [setup(load_dependencies)]) :-
 	findall(
 		BrotherInLaw,
-		brother_in_law(BrotherInLaw, 'Hans Koks'),
+		brother_in_law(BrotherInLaw, hans),
 		ActualBrothersInLaw
 	),
-	assertion(member('Kurt Normalverbraucher', ActualBrothersInLaw)).
+	assertion(member(kurt, ActualBrothersInLaw)).
 
 test(sister_in_law, [setup(load_dependencies)]) :-
 	findall(
 		SisterInLaw,
-		sister_in_law(SisterInLaw, 'Karla Kolumna'),
+		sister_in_law(SisterInLaw, karla),
 		ActualSistersInLaw
 	),
-	assertion(member('Lara Normalverbraucher', ActualSistersInLaw)).
-	
+	assertion(member(lara, ActualSistersInLaw)).
+
 test(cousin, [setup(load_dependencies)]) :-
 	findall(
 		Cousin,
-		cousin(Cousin, 'Max Kolumna'),
+		cousin(Cousin, max),
 		ActualCousins
 	),
-	assertion(member('Lucy Koks', ActualCousins)).
-	
+	assertion(member(lucy, ActualCousins)).
+
 test(uncle, [setup(load_dependencies)]) :-
 	findall(
 		Uncle,
-		uncle(Uncle, 'Kurt Normalverbraucher'),
+		uncle(Uncle, kurt),
 		ActualUncles
 	),
-	assertion(member('Tom Käse', ActualUncles)).
-	
+	assertion(member(tom, ActualUncles)).
+
 test(aunt, [setup(load_dependencies)]) :-
 	findall(
 		Aunt,
-		aunt(Aunt, 'Max Kolumna'),
+		aunt(Aunt, max),
 		ActualAunts
 	),
-	assertion(member('Lara Normalverbraucher', ActualAunts)).
-	
+	assertion(member(lara, ActualAunts)).
+
 test(nephew, [setup(load_dependencies)]) :-
 	findall(
 		Nephew,
-		nephew(Nephew, 'Bernd Normalverbraucher'),
+		nephew(Nephew, bernd),
 		ActualNephews
 	),
-	assertion(member('Max Kolumna', ActualNephews)).
-	
+	assertion(member(max, ActualNephews)).
+
 test(niece, [setup(load_dependencies)]) :-
 	findall(
 		Niece,
-		niece(Niece, 'Bernd Normalverbraucher'),
+		niece(Niece, bernd),
 		ActualNieces
 	),
-	assertion(member('Alesya Kolumna', ActualNieces)).
-	
+	assertion(member(alesya, ActualNieces)).
+
 test(grand_uncle, [setup(load_dependencies)]) :-
 	findall(
 		GrandUncle,
-		grand_uncle(GrandUncle, 'Karl Koks'),
+		grand_uncle(GrandUncle, karl),
 		ActualGrandUncles
 	),
-	assertion(member('Tom Käse', ActualGrandUncles)).
+	assertion(member(tom, ActualGrandUncles)).
 
 test(grand_aunt, [setup(load_dependencies)]) :-
 	findall(
 		GrandAunt,
-		grand_aunt(GrandAunt, 'Karl Koks'),
+		grand_aunt(GrandAunt, karl),
 		ActualGrandAunts
 	),
-	assertion(member('Erna Käse', ActualGrandAunts)).
+	assertion(member(erna, ActualGrandAunts)).
 
 test(in_law_siblings, [setup(load_dependencies)]) :-
 	findall(
 		InLawSibling,
-		in_law_sibling(InLawSibling, 'Karla Kolumna'),
+		in_law_sibling(InLawSibling, karla),
 		ActualInLawSiblings
 	),
-	assertion(member('Hans Koks', ActualInLawSiblings)).
-
-%test(in_law, [setup(load_dependencies)]) :-
-%	sister_in_law(ActualSisterInLaw, 'Hans Koks'),
-%	ExpectedSisterInLaw = 'Karla Kolumna',
-%	assertion(ExpectedSisterInLaw = ActualSisterInLaw).
+	assertion(member(hans, ActualInLawSiblings)).
 
 :- end_tests(pedigree).
