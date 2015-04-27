@@ -55,27 +55,37 @@ brother_in_law(BrotherInLaw, Person) :-
 sister_in_law(SisterInLaw, Person) :-
 	female(SisterInLaw), in_law(SisterInLaw, Person).
 
-cousin(_Cousin, _Person) :-
-	false.
+cousin(Cousin, Person) :-
+	parent(CousinParent, Cousin),
+	parent(PersonParent, Person),
+	sibling(CousinParent, PersonParent).
 
-uncle(_Uncle, _Person) :-
-	false.
+parent_sibling(ParentSibling, Person) :-
+	parent(Parent, Person), sibling(Parent, ParentSibling).
 
-aunt(_Aunt, _Person) :-
-	false.
+uncle(Uncle, Person) :-
+	male(Uncle), parent_sibling(Uncle, Person).
 
-nephew(_Nephew, _Person) :-
-	false.
+aunt(Aunt, Person) :-
+	female(Aunt), parent_sibling(Aunt, Person).
 
-niece(_Niece, _Person) :-
-	false.
+nephew(Nephew, Person) :-
+	male(Nephew), parent_sibling(Person, Nephew).
 
-grand_uncle(_Granduncle, _Person) :-
-	false.
+niece(Niece, Person) :-
+	female(Niece), parent_sibling(Person, Niece).
 
-grand_aunt(_Grandaunt, _Person) :-
-	false.
+grand_parent_sibling(GrandParentSibling, Person) :-
+	grand_parent(GrandParent, Person),
+	sibling(GrandParentSibling, GrandParent).
 
-in_law_sibling(_InLawSibling, _Person) :-
-	false.
+grand_uncle(Granduncle, Person) :-
+	male(Granduncle), grand_parent_sibling(Granduncle, Person).
 
+grand_aunt(Grandaunt, Person) :-
+	female(Grandaunt), grand_parent_sibling(Grandaunt, Person).
+
+in_law_sibling(InLawSibling, Person) :-
+	couple(InLawSibling, InLawSiblingPartner),
+	couple(Person, PersonPartner),
+	sibling(InLawSiblingPartner, PersonPartner).
