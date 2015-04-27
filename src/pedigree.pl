@@ -1,5 +1,9 @@
 % so start all over again!
 
+couple(Person, AnotherPerson) :-
+	married(Person, AnotherPerson);
+	married(AnotherPerson, Person).
+
 mother(Mother, Person) :-
 	female(Mother), parent(Mother, Person).
 
@@ -14,29 +18,42 @@ sibling(Sibling, Person) :-
 siblings(Siblings, Person) :-
 	findall(Sibling, sibling(Sibling, Person), Siblings).
 
-brother(_Brother, _Person) :-
-	false.
+brother(Brother, Person) :-
+	male(Brother), sibling(Brother, Person).
 
-sister(_Sister, _Person) :-
-	false.
+sister(Sister, Person) :-
+	female(Sister), sibling(Sister, Person).
 
-children(_Children, _Person) :-
-	false.
+child(Child, Person) :-
+	parent(Person, Child).
 
-parents(_Parents, _Person) :-
-	false.
+children(Children, Person) :-
+	findall(Child, child(Child, Person), Children).
 
-grand_parents(_GrandParents, _Person) :-
-	false.
+parents(Parents, Person) :-
+	findall(Parent, parent(Parent, Person), Parents).
 
-grand_children(_GrandChildren, _Person) :-
-	false.
+grand_parent(GrandParent, Person) :-
+	parent(GrandParent, Parent), parent(Parent, Person).
+grand_mother(GrandMother, Person) :-
+	female(GrandMother), grand_parent(GrandMother, Person).
+grand_father(GrandFather, Person) :-
+	male(GrandFather), grand_parent(GrandFather, Person).
 
-brother_in_law(_BrotherInLaw, _Person) :-
-	false.
+grand_parents(GrandParents, Person) :-
+	findall(GrandParent, grand_parent(GrandParent, Person), GrandParents).
 
-sister_in_law(_SisterInLaw, _Person) :-
-	false.
+grand_children(GrandChildren, Person) :-
+	findall(GrandChild, grand_parent(Person, GrandChild), GrandChildren).
+
+in_law(InLaw, Person) :-
+	sibling(InLaw, InLawSibling), couple(InLawSibling, Person).
+
+brother_in_law(BrotherInLaw, Person) :-
+	male(BrotherInLaw), in_law(BrotherInLaw, Person).
+
+sister_in_law(SisterInLaw, Person) :-
+	female(SisterInLaw), in_law(SisterInLaw, Person).
 
 cousin(_Cousin, _Person) :-
 	false.
