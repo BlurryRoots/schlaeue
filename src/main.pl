@@ -7,10 +7,11 @@ load_knowledge_base :-
 	consult('src/lexicon').
 
 run_queries :-
-	%findall([Str, Att, Value, X], proper_noun(S, A, B, C), Results),
-	proper_noun(S, _, [karina], X),
-	Results = [S, X],
-	write(Results), nl.
+	question(Parts, Grammer, Answer, [who, is, married, lara], Unmatched),
+	write(Parts), nl,
+	write(Grammer), nl,
+	write(Answer), nl,
+	write(Unmatched), nl.
 
 main :-
 	load_knowledge_base, run_queries.
