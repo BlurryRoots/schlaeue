@@ -1,10 +1,13 @@
 % define a dcg for pedigree queries
 
+ask_question(Question, Answer) :-
+	question(_Semantic, _Grammer, Answer, Question, _Unmatched).
+
 question([SP, VP], question(SP, VP), Answer) -->
-	pronoun(SP, P, _),
-	verbal_phrase(VP, S, Attributes),
+	pronoun(SP, _P, _),
+	verbal_phrase(VP, _S, _Attributes),
 	{
-		[Verb, Adjective, Subject] = VP,
+		[_Verb, Adjective, Subject] = VP,
 		Predicate =.. [Adjective, Answer, Subject],
 		Predicate
 	}.

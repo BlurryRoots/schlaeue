@@ -7,11 +7,9 @@ load_knowledge_base :-
 	consult('src/lexicon').
 
 run_queries :-
-	question(Parts, Grammer, Answer, [who, is, brother, lara], Unmatched),
-	write(Parts), nl,
-	write(Grammer), nl,
-	write(Answer), nl,
-	write(Unmatched), nl.
+	Question = [who, is, brother, erna],
+	ask_question(Question, Answer),
+	write(Question), write(' -> '), write(Answer).
 
 main :-
 	load_knowledge_base, run_queries.
