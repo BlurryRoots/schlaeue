@@ -1,5 +1,4 @@
 % wissensdatenbank, beinhaltet alle fakten über stammbaum
-%
 
 female(karina).
 female(sina).
@@ -21,10 +20,15 @@ male(max).
 male(karl).
 
 married(karina, markus).
+married(markus, karina).
 married(sina, otto).
+married(otto, sina).
 married(karolina, frank).
+married(frank, karolina).
 married(karla, kurt).
+married(kurt, karla).
 married(lara, hans).
+married(hans, lara).
 
 parent(karina, sina).
 parent(karina, tom).
