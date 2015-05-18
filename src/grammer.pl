@@ -5,7 +5,7 @@ question([SP, VP], question(SP, VP), Answer) -->
 	verbal_phrase(VP, S, Attributes),
 	{
 		[Verb, Adjective, Subject] = VP,
-		Predicate =.. [Adjective, Subject, Answer],
+		Predicate =.. [Adjective, Answer, Subject],
 		Predicate
 	}.
 
