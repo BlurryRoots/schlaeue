@@ -7,7 +7,7 @@ load_knowledge_base :-
 	consult('src/lexicon').
 
 run_queries :-
-	question(Parts, Grammer, Answer, [who, is, married, lara], Unmatched),
+	question(Parts, Grammer, Answer, [who, is, brother, lara], Unmatched),
 	write(Parts), nl,
 	write(Grammer), nl,
 	write(Answer), nl,
