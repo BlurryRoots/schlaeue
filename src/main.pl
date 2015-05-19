@@ -7,7 +7,7 @@ load_knowledge_base :-
 	consult('src/lexicon').
 
 run_queries :-
-	Question = [who, is, brother, erna],
+	Question = [who, is, the, brother, of, erna, ?],
 	ask_question(Question, Answer),
 	write(Question), write(' -> '), write(Answer).
 

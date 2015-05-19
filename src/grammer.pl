@@ -6,6 +6,7 @@ ask_question(Question, Answer) :-
 question([SP, VP], question(SP, VP), Answer) -->
 	interrogative(SP, _P, _),
 	verbal_phrase(VP, _S, _Attributes),
+	[?],
 	{
 		[_Verb, Subjects] = VP,
 		[_Art, Key, [_Prep, [Subject]]] = Subjects,
