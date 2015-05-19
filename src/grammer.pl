@@ -3,6 +3,24 @@
 ask_question(Question, Answer) :-
 	question(_Semantic, _Grammer, Answer, Question, _Unmatched).
 
+% descicion question (is tom the brother of erna?)
+question([VP, NP, P], question(Verb, Noun, Prep), Answer) -->
+	verbal_phrase(VP, Verb, _),
+	noun_phrase(NP, Noun, _),
+	prepositional_phrase(P, Prep, _),
+	[?],
+	{
+		(
+		[_Verb, [Subject]] = VP,
+		[_Arti, Key] = NP,
+		[_Prep, [OtherSubject]] = P,
+		Predicate =.. [Key, Subject, OtherSubject],
+		Predicate, Answer = true
+		), !;
+		Answer = false
+	}.
+
+% completion questions (who is the brother of erna?)
 question([SP, VP], question(SP, VP), Answer) -->
 	interrogative(SP, _P, _),
 	verbal_phrase(VP, _S, _Attributes),
