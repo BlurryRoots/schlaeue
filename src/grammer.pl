@@ -4,40 +4,56 @@ ask_question(Question, Answer) :-
 	question(_Semantic, _Grammer, Answer, Question, _Unmatched).
 
 question([SP, VP], question(SP, VP), Answer) -->
-	pronoun(SP, _P, _),
+	interrogative(SP, _P, _),
 	verbal_phrase(VP, _S, _Attributes),
 	{
-		[_Verb, Adjective, Subject] = VP,
-		Predicate =.. [Adjective, Answer, Subject],
+		[_Verb, Subjects] = VP,
+		[_Art, Key, [_Prep, [Subject]]] = Subjects,
+		Predicate =.. [Key, Answer, Subject],
 		Predicate
 	}.
 
-%adjectival_phrase([])
-verbal_phrase([V, A, NP], verbal_phrase(Verb, Adjective, Noun), Attributes) -->
-	verb(V, Verb, Attributes),
-	adjective(A, Adjective, _),
-	noun_phrase(NP, Noun, _).
 verbal_phrase([V, NP], verbal_phrase(Verb, Noun), Attributes) -->
 	verb(V, Verb, Attributes),
 	noun_phrase(NP, Noun, _).
-verbal_phrase([X, _], verbal_phrase(Verb), Attributes) -->
-	verb(X, Verb, Attributes).
 
-noun_phrase(S, noun_phrase(Noun), Attributes) -->
-	proper_noun(S, Noun, Attributes).
+prepositional_phrase([P, N], noun_phrase(Prep, Noun), Attributes) -->
+	preposition(P, Prep, _),
+	noun_phrase(N, Noun, Attributes).
+
+noun_phrase([A, N], noun_phrase(Article, Noun), Attributes) -->
+	article(A, Article, _),
+	noun(N, Noun, Attributes).
+noun_phrase([P], noun_phrase(Noun), Attributes) -->
+	proper_noun(P, Noun, Attributes).
+noun_phrase([A, N, P], noun_phrase(Article, Noun, Prep), Attributes) -->
+	article(A, Article, _),
+	(noun(N, Noun, Attributes); proper_noun(N, Noun, Attributes)),
+	prepositional_phrase(P, Prep, _).
+
+interrogative(Value, interrogative(Value), Attributes) --> [X], {
+	lexicon(X, Value, interrogative, Attributes)
+}.
 
 proper_noun(Noun, proper_noun(Noun), Attributes) --> [X], {
 	lexicon(X, Noun, proper_noun, Attributes)
 }.
-
-pronoun(Pronoun, pornoun(Pronoun), Attributes) --> [X], {
-	lexicon(X, Pronoun, pronoun, Attributes)
+noun(Value, noun(Value), Attributes) --> [X], {
+	lexicon(X, Value, noun, Attributes)
 }.
 
-adjective(Adjective, adjective(Adjective), Attributes) --> [X], {
-	lexicon(X, Adjective, adjective, Attributes)
+preposition(Value, preposition(Value), Attributes) --> [X], {
+	lexicon(X, Value, preposition, Attributes)
 }.
 
-verb(Verb, verb(Verb), Attributes) --> [X], {
-	lexicon(X, Verb, verb, Attributes)
+article(Value, preposition(Value), Attributes) --> [X], {
+	lexicon(X, Value, article, Attributes)
+}.
+
+adjective(Value, adjective(Value), Attributes) --> [X], {
+	lexicon(X, Value, adjective, Attributes)
+}.
+
+verb(Value, verb(Value), Attributes) --> [X], {
+	lexicon(X, Value, verb, Attributes)
 }.
