@@ -156,6 +156,16 @@ test(who_question_brother, [setup(load_dependencies)]) :-
 	assertion(length(ActualAnswers, 1)),
 	assertion(member(tom, ActualAnswers)).
 
+test(who_question_sister, [setup(load_dependencies)]) :-
+	Question = [who, is, the, sister, of, kurt, ?],
+	findall(
+		Answer,
+		ask_question(Question, Answer),
+		ActualAnswers
+	),
+	assertion(length(ActualAnswers, 1)),
+	assertion(member(lara, ActualAnswers)).
+
 test(who_question_uncle, [setup(load_dependencies)]) :-
 	Question = [who, is, the, uncle, of, max, ?],
 	findall(
@@ -165,6 +175,26 @@ test(who_question_uncle, [setup(load_dependencies)]) :-
 	),
 	assertion(length(ActualAnswers, 1)),
 	assertion(member(bernd, ActualAnswers)).
+
+test(who_question_father, [setup(load_dependencies)]) :-
+	Question = [who, is, the, father, of, kurt, ?],
+	findall(
+		Answer,
+		ask_question(Question, Answer),
+		ActualAnswers
+	),
+	assertion(length(ActualAnswers, 1)),
+	assertion(member(otto, ActualAnswers)).
+
+test(who_question_mother, [setup(load_dependencies)]) :-
+	Question = [who, is, the, mother, of, kurt, ?],
+	findall(
+		Answer,
+		ask_question(Question, Answer),
+		ActualAnswers
+	),
+	assertion(length(ActualAnswers, 1)),
+	assertion(member(sina, ActualAnswers)).
 
 test(is_question_brother, [setup(load_dependencies)]) :-
 	Question = [is, tom, the, brother, of, erna, ?],
