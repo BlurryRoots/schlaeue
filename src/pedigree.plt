@@ -196,6 +196,13 @@ test(who_question_mother, [setup(load_dependencies)]) :-
 	assertion(length(ActualAnswers, 1)),
 	assertion(member(sina, ActualAnswers)).
 
+test(who_question_parents, [setup(load_dependencies), nondet]) :-
+	Question = [who, are, the, parents, of, kurt, ?],
+	ask_question(Question, Answer),
+	assertion(length(Answer, 2)),
+	assertion(member(sina, Answer)),
+	assertion(member(otto, Answer)).
+
 test(is_question_brother, [setup(load_dependencies)]) :-
 	Question = [is, tom, the, brother, of, erna, ?],
 	ask_question(Question, Answer),

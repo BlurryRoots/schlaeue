@@ -11,6 +11,7 @@ lexicon(of, of, preposition, attributes(_, _, _)).
 
 lexicon(married, married, noun, attributes(_, _, _)).
 lexicon(parent, parent, noun, attributes(_, _, _)).
+lexicon(parents, parents, noun, attributes(_, _, _)).
 lexicon(father, father, noun, attributes(_, _, _)).
 lexicon(mother, mother, noun, attributes(_, _, _)).
 lexicon(sibling, sibling, noun, attributes(_, _, _)).
