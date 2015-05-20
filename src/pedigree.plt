@@ -4,7 +4,10 @@
 :- begin_tests(pedigree).
 
 load_dependencies :-
-	consult('src/db.pl'), consult('src/pedigree.pl').
+	consult('src/db.pl'),
+	consult('src/pedigree.pl'),
+	consult('src/grammar'),
+	consult('src/lexicon').
 
 test(siblings, [setup(load_dependencies)]) :-
 	siblings(ActualSiblings, kurt),
@@ -142,5 +145,20 @@ test(in_law_siblings, [setup(load_dependencies)]) :-
 		ActualInLawSiblings
 	),
 	assertion(member(hans, ActualInLawSiblings)).
+
+test(who_question, [setup(load_dependencies)]) :-
+	Question = [who, is, the, brother, of, erna, ?],
+	findall(
+		Answer,
+		ask_question(Question, Answer),
+		ActualAnswers
+	),
+	assertion(length(ActualAnswers, 1)),
+	assertion(member(tom, ActualAnswers)).
+
+test(is_question, [setup(load_dependencies)]) :-
+	Question = [is, tom, the, brother, of, erna, ?],
+	ask_question(Question, Answer),
+	assertion(Answer = true).
 
 :- end_tests(pedigree).

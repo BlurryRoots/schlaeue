@@ -19,7 +19,7 @@ lexicon(child, child, noun, attributes(_, _, _)).
 lexicon(grand_parent, grand_parent, noun, attributes(_, _, _)).
 lexicon(grand_mother, grand_mother, noun, attributes(_, _, _)).
 lexicon(grand_father, grand_father, noun, attributes(_, _, _)).
-lexicon(inlaw, inlaw, noun, attributes(_, _, _)).
+lexicon(in_law, in_law, noun, attributes(_, _, _)).
 lexicon(cousin, cousin, noun, attributes(_, _, _)).
 lexicon(nephew, nephew, noun, attributes(_, _, _)).
 lexicon(niece, niece, noun, attributes(_, _, _)).

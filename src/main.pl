@@ -3,7 +3,7 @@
 load_knowledge_base :-
 	consult('src/db'),
 	consult('src/pedigree'),
-	consult('src/grammer'),
+	consult('src/grammar'),
 	consult('src/lexicon').
 
 run_queries :-
@@ -13,7 +13,8 @@ run_queries :-
 	nl,
 	Question2 = [is, tom, the, brother, of, erna, ?],
 	ask_question(Question2, Answer2),
-	write(Question2), write(' -> '), write(Answer2).
+	write(Question2), write(' -> '), write(Answer2),
+	nl.
 
 main :-
 	load_knowledge_base, run_queries.
