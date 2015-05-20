@@ -206,4 +206,14 @@ test(is_question_uncle, [setup(load_dependencies)]) :-
 	ask_question(Question, Answer),
 	assertion(Answer = true).
 
+test(is_question_grand_uncle, [setup(load_dependencies)]) :-
+	Question = [is, tom, the, grand_uncle, of, karl, ?],
+	ask_question(Question, Answer),
+	assertion(Answer = true).
+
+test(is_question_nephew, [setup(load_dependencies)]) :-
+	Question = [is, max, the, nephew, of, bernd, ?],
+	ask_question(Question, Answer),
+	assertion(Answer = true).
+
 :- end_tests(pedigree).

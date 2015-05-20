@@ -26,6 +26,8 @@ lexicon(nephew, nephew, noun, attributes(_, _, _)).
 lexicon(niece, niece, noun, attributes(_, _, _)).
 lexicon(aunt, aunt, noun, attributes(_, _, _)).
 lexicon(uncle, uncle, noun, attributes(_, _, _)).
+lexicon(grand_uncle, grand_uncle, noun, attributes(_, _, _)).
+lexicon(grand_aunt, grand_aunt, noun, attributes(_, _, _)).
 
 lexicon(Noun, Noun, proper_noun, attributes(3, singular, present)) :-
 	female(Noun);
