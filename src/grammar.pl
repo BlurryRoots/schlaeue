@@ -1,7 +1,26 @@
 % define a dcg for pedigree queries
 
+get_response(Question, Answer) :-
+	response(_Semantic, _Grammer, Answer, Question, _Unmatched).
+
 ask_question(Question, Answer) :-
 	question(_Semantic, _Grammer, Answer, Question, _Unmatched).
+
+% descicion question (is tom the brother of erna?)
+response([VP, NP, P], question(SVerb, SNoun, SPrep), Answer) -->
+	verbal_phrase(VP, SVerb, NounAttr),
+	noun_phrase(NP, SNoun, NounAttr),
+	prepositional_phrase(P, SPrep, _),
+	[?],
+	{
+		[Verb, [Subject]] = VP,
+		[Arti, Key] = NP,
+		[Prep, [OtherSubject]] = P,
+		Predicate =.. [Key, Subject, OtherSubject],
+		Predicate,
+		lexicon(ConjugatedVerb, Verb, verb, NounAttr),
+		Answer = [Subject, ConjugatedVerb, Arti, Key, Prep, OtherSubject], !
+	}.
 
 % descicion question (is tom the brother of erna?)
 question([VP, NP, P], question(Verb, Noun, Prep), Answer) -->
