@@ -11,41 +11,37 @@ question([VP, NP, P], question(Verb, Noun, Prep), Answer) -->
 	[?],
 	{
 		(
-		[_Verb, [Subject]] = VP,
-		[_Arti, Key] = NP,
-		[_Prep, [OtherSubject]] = P,
-		Predicate =.. [Key, Subject, OtherSubject],
-		Predicate, Answer = true
-		), !;
+		Predicate =.. [NP, VP, P], Predicate, Answer = true;
 		Answer = false
+		), !
 	}.
 
 % completion questions (who is the brother of erna?)
-question([SP, VP], question(SP, VP), Answer) -->
-	interrogative(SP, _P, _),
-	verbal_phrase(VP, _S, _Attributes),
+question([I, V, NP, P], question(SNP), Answer) -->
+	interrogative(I, SI, _),
+	verb(V, SV, _),
+	noun_phrase(NP, SNP, _),
+	prepositional_phrase(P, SP, _),
 	[?],
 	{
-		[_Verb, Subjects] = VP,
-		[_Art, Key, [_Prep, [Subject]]] = Subjects,
-		Predicate =.. [Key, Answer, Subject],
+		Predicate =.. [NP, Answer, P],
 		Predicate
 	}.
 
-verbal_phrase([V, NP], verbal_phrase(Verb, Noun), Attributes) -->
+verbal_phrase(NP, verbal_phrase(Verb, Noun), Attributes) -->
 	verb(V, Verb, Attributes),
 	noun_phrase(NP, Noun, _).
 
-prepositional_phrase([P, N], noun_phrase(Prep, Noun), Attributes) -->
+prepositional_phrase(N, noun_phrase(Prep, Noun), Attributes) -->
 	preposition(P, Prep, _),
 	noun_phrase(N, Noun, Attributes).
 
-noun_phrase([A, N], noun_phrase(Article, Noun), Attributes) -->
+noun_phrase(N, noun_phrase(Article, Noun), Attributes) -->
 	article(A, Article, _),
 	noun(N, Noun, Attributes).
-noun_phrase([P], noun_phrase(Noun), Attributes) -->
-	proper_noun(P, Noun, Attributes).
-noun_phrase([A, N, P], noun_phrase(Article, Noun, Prep), Attributes) -->
+noun_phrase(N, noun_phrase(Noun), Attributes) -->
+	proper_noun(N, Noun, Attributes).
+noun_phrase(N, noun_phrase(Article, Noun, Prep), Attributes) -->
 	article(A, Article, _),
 	(noun(N, Noun, Attributes); proper_noun(N, Noun, Attributes)),
 	prepositional_phrase(P, Prep, _).
