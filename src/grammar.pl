@@ -3,6 +3,18 @@
 ask_question(Question, Answer) :-
 	question(_Semantic, _Grammer, Answer, Question, _Unmatched).
 
+%ask_question_with_
+
+sentence([N, V, A, K, P, S2], Semantic) -->
+	noun_phrase(SS1, noun_phrase(N), Attr),
+	verb(V, _, Attr),
+	noun_phrase(Key, noun_phrase(A, K), _),
+	preposition(P, _, _),
+	proper_noun(SS2, proper_noun(S2), _),
+	{
+		Semantic =.. [Key, SS1, SS2]
+	}.
+
 % descicion question (is tom the brother of erna?)
 question([VP, NP, P], question(Verb, Noun, Prep), Answer) -->
 	verbal_phrase(VP, Verb, _),
@@ -17,7 +29,7 @@ question([VP, NP, P], question(Verb, Noun, Prep), Answer) -->
 	}.
 
 % completion questions (who is the brother of erna?)
-question([I, V, NP, P], question(SNP), Answer) -->
+question([I, V, NP, P], question(SI, SV, SNP, SP), Answer) -->
 	interrogative(I, SI, _),
 	verb(V, SV, _),
 	noun_phrase(NP, SNP, _),
@@ -29,22 +41,22 @@ question([I, V, NP, P], question(SNP), Answer) -->
 	}.
 
 verbal_phrase(NP, verbal_phrase(Verb, Noun), Attributes) -->
-	verb(V, Verb, Attributes),
+	verb(_V, Verb, Attributes),
 	noun_phrase(NP, Noun, _).
 
-prepositional_phrase(N, noun_phrase(Prep, Noun), Attributes) -->
-	preposition(P, Prep, _),
+prepositional_phrase(N, p(Prep, Noun), Attributes) -->
+	preposition(_P, Prep, _),
 	noun_phrase(N, Noun, Attributes).
 
 noun_phrase(N, noun_phrase(Article, Noun), Attributes) -->
-	article(A, Article, _),
+	article(_A, Article, _),
 	noun(N, Noun, Attributes).
 noun_phrase(N, noun_phrase(Noun), Attributes) -->
 	proper_noun(N, Noun, Attributes).
 noun_phrase(N, noun_phrase(Article, Noun, Prep), Attributes) -->
-	article(A, Article, _),
+	article(_A, Article, _),
 	(noun(N, Noun, Attributes); proper_noun(N, Noun, Attributes)),
-	prepositional_phrase(P, Prep, _).
+	prepositional_phrase(_P, Prep, _).
 
 interrogative(Value, interrogative(Value), Attributes) --> [X], {
 	lexicon(X, Value, interrogative, Attributes)
