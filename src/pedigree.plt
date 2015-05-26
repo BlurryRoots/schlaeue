@@ -148,9 +148,10 @@ test(in_law_siblings, [setup(load_dependencies)]) :-
 
 test(who_question_brother, [setup(load_dependencies)]) :-
 	Question = [who, is, the, brother, of, erna, ?],
+	question(_, _Grammar, Semantic, Question, _),
 	findall(
-		Answer,
-		ask_question(Question, Answer),
+		_,
+		Semantic,
 		ActualAnswers
 	),
 	assertion(length(ActualAnswers, 1)),
@@ -158,9 +159,10 @@ test(who_question_brother, [setup(load_dependencies)]) :-
 
 test(who_question_sister, [setup(load_dependencies)]) :-
 	Question = [who, is, the, sister, of, kurt, ?],
+	question(_, _Grammar, Semantic, Question, _),
 	findall(
-		Answer,
-		ask_question(Question, Answer),
+		_,
+		Semantic,
 		ActualAnswers
 	),
 	assertion(length(ActualAnswers, 1)),
@@ -168,9 +170,10 @@ test(who_question_sister, [setup(load_dependencies)]) :-
 
 test(who_question_uncle, [setup(load_dependencies)]) :-
 	Question = [who, is, the, uncle, of, max, ?],
+	question(_, _Grammar, Semantic, Question, _),
 	findall(
-		Answer,
-		ask_question(Question, Answer),
+		_,
+		Semantic,
 		ActualAnswers
 	),
 	assertion(length(ActualAnswers, 1)),
@@ -178,9 +181,10 @@ test(who_question_uncle, [setup(load_dependencies)]) :-
 
 test(who_question_father, [setup(load_dependencies)]) :-
 	Question = [who, is, the, father, of, kurt, ?],
+	question(_, _Grammar, Semantic, Question, _),
 	findall(
-		Answer,
-		ask_question(Question, Answer),
+		_,
+		Semantic,
 		ActualAnswers
 	),
 	assertion(length(ActualAnswers, 1)),
@@ -188,9 +192,10 @@ test(who_question_father, [setup(load_dependencies)]) :-
 
 test(who_question_mother, [setup(load_dependencies)]) :-
 	Question = [who, is, the, mother, of, kurt, ?],
+	question(_, _Grammar, Semantic, Question, _),
 	findall(
-		Answer,
-		ask_question(Question, Answer),
+		_,
+		Semantic,
 		ActualAnswers
 	),
 	assertion(length(ActualAnswers, 1)),
@@ -198,29 +203,34 @@ test(who_question_mother, [setup(load_dependencies)]) :-
 
 test(who_question_parents, [setup(load_dependencies), nondet]) :-
 	Question = [who, are, the, parents, of, kurt, ?],
-	ask_question(Question, Answer),
-	assertion(length(Answer, 2)),
-	assertion(member(sina, Answer)),
-	assertion(member(otto, Answer)).
+	question(_, _Grammar, Semantic, Question, _),
+	findall(
+		_,
+		Semantic,
+		ActualAnswers
+	),
+	assertion(length(ActualAnswers, 2)),
+	assertion(member(sina, ActualAnswers)),
+	assertion(member(otto, ActualAnswers)).
 
-test(is_question_brother, [setup(load_dependencies)]) :-
-	Question = [is, tom, the, brother, of, erna, ?],
-	ask_question(Question, Answer),
-	assertion(Answer = true).
-
-test(is_question_uncle, [setup(load_dependencies)]) :-
-	Question = [is, bernd, the, uncle, of, max, ?],
-	ask_question(Question, Answer),
-	assertion(Answer = true).
-
-test(is_question_grand_uncle, [setup(load_dependencies)]) :-
-	Question = [is, tom, the, grand_uncle, of, karl, ?],
-	ask_question(Question, Answer),
-	assertion(Answer = true).
-
-test(is_question_nephew, [setup(load_dependencies)]) :-
-	Question = [is, max, the, nephew, of, bernd, ?],
-	ask_question(Question, Answer),
-	assertion(Answer = true).
-
+%test(is_question_brother, [setup(load_dependencies)]) :-
+%	Question = [is, tom, the, brother, of, erna, ?],
+%	ask_question(Question, Answer),
+%	assertion(Answer = true).
+%
+%test(is_question_uncle, [setup(load_dependencies)]) :-
+%	Question = [is, bernd, the, uncle, of, max, ?],
+%	ask_question(Question, Answer),
+%	assertion(Answer = true).
+%
+%test(is_question_grand_uncle, [setup(load_dependencies)]) :-
+%	Question = [is, tom, the, grand_uncle, of, karl, ?],
+%	ask_question(Question, Answer),
+%	assertion(Answer = true).
+%
+%test(is_question_nephew, [setup(load_dependencies)]) :-
+%	Question = [is, max, the, nephew, of, bernd, ?],
+%	ask_question(Question, Answer),
+%	assertion(Answer = true).
+%
 :- end_tests(pedigree).

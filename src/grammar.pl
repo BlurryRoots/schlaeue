@@ -14,32 +14,28 @@ sentence([N, V, A, K, P, S2], Semantic) -->
 	preposition(P, _, _),
 	proper_noun(SS2, proper_noun(S2), _),
 	{
-		Semantic =.. [Key, SS1, SS2]
+		Semantic =.. [Key, SS1, SS2], !
 	}.
 
 % descicion question (is tom the brother of erna?)
-question([VP, NP, P], question(Verb, Noun, Prep), Answer) -->
+question([VP, NP, P], question(Verb, Noun, Prep), Semantic) -->
 	verbal_phrase(VP, Verb, _),
 	noun_phrase(NP, Noun, _),
 	prepositional_phrase(P, Prep, _),
 	[?],
 	{
-		(
-		Predicate =.. [NP, VP, P], Predicate, Answer = true;
-		Answer = false
-		), !
+		Semantic =.. [NP, VP, P], !
 	}.
 
 % completion questions (who is the brother of erna?)
-question([I, V, NP, P], question(SI, SV, SNP, SP), Answer) -->
+question([I, V, NP, P], question(SI, SV, SNP, SP), Semantic) -->
 	interrogative(I, SI, _),
 	verb(V, SV, _),
 	noun_phrase(NP, SNP, _),
 	prepositional_phrase(P, SP, _),
 	[?],
 	{
-		Predicate =.. [NP, Answer, P],
-		Predicate
+		Semantic =.. [NP, Answer, P], !
 	}.
 
 verbal_phrase(NP, verbal_phrase(Verb, Noun), Attributes) -->
