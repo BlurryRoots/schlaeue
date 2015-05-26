@@ -1,9 +1,11 @@
 % define a dcg for pedigree queries
 
 ask_question(Question, Answer) :-
-	question(_Semantic, _Grammer, Answer, Question, _Unmatched).
+	question(_Semantic, _Grammar, Answer, Question, _Unmatched).
 
-%ask_question_with_
+ask_question_with_respons(Question, Answer, Response) :-
+	question(S, _G, Answer, Question, _),
+	sentence(_, S, Response, _).
 
 sentence([N, V, A, K, P, S2], Semantic) -->
 	noun_phrase(SS1, noun_phrase(N), Attr),

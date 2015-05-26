@@ -14,6 +14,11 @@ run_queries :-
 	Question2 = [is, tom, the, brother, of, erna, ?],
 	ask_question(Question2, Answer2),
 	write(Question2), write(' -> '), write(Answer2),
+	nl,
+	Question3 = [is, tom, the, brother, of, erna, ?],
+	ask_question_with_respons(Question3, Answer3, Response1),
+	write(Question3), write(' -> '), write(Answer3), nl,
+	write('Response: '), write(Response1),
 	nl.
 
 main :-
