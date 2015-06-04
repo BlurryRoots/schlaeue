@@ -6,6 +6,7 @@ lexicon(are, are, verb, attributes(2, plural, present)).
 lexicon(is, are, verb, attributes(3, singular, present)).
 
 lexicon(the, the, article, attributes(_, _, _)).
+lexicon(a, a, article, attributes(_, _, _)).
 
 lexicon(of, of, preposition, attributes(_, _, _)).
 
