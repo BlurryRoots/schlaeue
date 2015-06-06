@@ -40,7 +40,7 @@ check_englishman([]) :-
 	false.
 check_englishman([House | Rest]) :-
 	[red, englishman | _] = House;
-	englishman(Rest).
+	check_englishman(Rest).
 %  3) Spaniard owns dog.
 check_spaniard([]) :-
 	false.
@@ -112,67 +112,17 @@ check_japanese([[_, japanese, _, _, parliament] | _]).
 check_japanese([_ | Rest]) :-
 	check_lucky(Rest).
 
-generate_houses([], [], [], [], [], Houses, Houses).
-generate_houses(
-	[Color | ColorR],
-	[Inhabitan | InhabitansR],
-	[Pet | PetsR],
-	[Drink | DrinksR],
-	[Cigarette | CigarettesR],
-	OldHouses,
-	NewHouses
-) :-
-	House = [Color, Inhabitan, Pet, Drink, Cigarette],
-	generate_houses(ColorR, InhabitansR, PetsR, DrinksR, CigarettesR,
-		[House | OldHouses],
-		NewHouses
-	).
-generate_houses(Co, In, Pe, Dr, Ci, Houses) :-
-	generate_houses(Co, In, Pe, Dr, Ci, [], Houses).
-
-generate_item_permutations(
-	PossibleColors,
-	PossibleInhabitants,
-	PossiblePets,
-	PossibleDrinks,
-	PossibleCigarettes
-) :-
-	findall(X, color(X), Colors),
-	findall(X, permutation(Colors, X), PossibleColors),
-	findall(X, inhabitant(X), Inhabitants),
-	findall(X, permutation(Inhabitants, X), PossibleInhabitants),
-	findall(X, pet(X), Pets),
-	findall(X, permutation(Pets, X), PossiblePets),
-	findall(X, drink(X), Drinks),
-	findall(X, permutation(Drinks, X), PossibleDrinks),
-	findall(X, cigarette(X), Cigarettes),
-	findall(X, permutation(Cigarettes, X), PossibleCigarettes).
-generate_houses_permutations([], [], [], [], [], PossibleHouses, PossibleHouses).
-generate_houses_permutations(
-	[Colors | ColorsR],
-	[Inhabitants | InhabtinatsR],
-	[Pets | PetsR],
-	[Drinks | DrinksR],
-	[Cigarettes | CigarettesR],
-	OldPossibleHouses,
-	NewPossibleHouses
-) :-
-	generate_houses(Colors, Inhabitants, Pets, Drinks, Cigarettes, Houses),
-	generate_houses_permutations(
-		ColorsR,
-		InhabtinatsR,
-		PetsR,
-		DrinksR,
-		CigarettesR,
-		[Houses | OldPossibleHouses],
-		NewPossibleHouses
-	).
-generate_houses_permutations(Co, In, Pe, Dr, Ci, PossibleHouses) :-
-	generate_houses_permutations(Co, In, Pe, Dr, Ci, [], PossibleHouses).
-
-generate_permutations(PossibleHouses) :-
-	generate_item_permutations(Co, In, Pe, Dr, Ci),
-	generate_houses_permutations(Co, In, Pe, Dr, Ci, PossibleHouses).
+generate([A, B, C, D, E]) :-
+	color(CoA), inhabitant(InA), pet(PeA), drink(DrA), cigarette(CiA),
+	A = [CoA, InA, PeA, DrA, CiA],
+	color(CoB), inhabitant(InB), pet(PeB), drink(DrB), cigarette(CiB),
+	B = [CoB, InB, PeB, DrB, CiB],
+	color(CoC), inhabitant(InC), pet(PeC), drink(DrC), cigarette(CiC),
+	C = [CoC, InC, PeC, DrC, CiC],
+	color(CoD), inhabitant(InD), pet(PeD), drink(DrD), cigarette(CiD),
+	D = [CoD, InD, PeD, DrD, CiD],
+	color(CoE), inhabitant(InE), pet(PeE), drink(DrE), cigarette(CiE),
+	E = [CoE, InE, PeE, DrE, CiE].
 
 test(Houses) :-
 	check_englishman(Houses),
