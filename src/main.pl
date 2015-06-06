@@ -7,7 +7,11 @@ print_community([Flat | Community], Number) :-
 print_community(Community) :-
 	print_community(Community, 1).
 
-main :-
-	consult('src/einstein'),
+run_testgenerate :-
+	consult('src/einstein_testgenerate'),
 	solve(Community),
 	print_community(Community).
+
+main :-
+	write('Running test generate approach:'), nl,
+	run_testgenerate.

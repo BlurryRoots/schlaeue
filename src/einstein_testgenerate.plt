@@ -1,6 +1,6 @@
 :- use_module(library(plunit)).
 
-:- begin_tests(einstein).
+:- begin_tests(einstein_testgenerate).
 
 /* problem domains
 	color (red, green, ivory, blue, yellow)
@@ -13,7 +13,7 @@
 */
 
 prepare :-
-	consult('src/einstein').
+	consult('src/einstein_testgenerate').
 
 test(right_side_relation, [setup(prepare)]) :-
 	Community = [[hans], [karl], [julia], [laura]],
@@ -39,4 +39,4 @@ test(solving, [setup(prepare), nondet]) :-
 	assertion(member([blue, ukrainian, horse, tea, chesterfield], Community)),
 	assertion(member([yellow, norwegian, fox, water, kools], Community)).
 
-:- end_tests(einstein).
+:- end_tests(einstein_testgenerate).
