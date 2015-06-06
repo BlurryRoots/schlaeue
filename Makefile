@@ -4,7 +4,7 @@ default: run
 run:
 	@swipl -q -l src/main.pl -g "main, halt"
 
-TESTS = no_test.plt
+TESTS = einstein.plt
 
 test: $(TESTS)
 
