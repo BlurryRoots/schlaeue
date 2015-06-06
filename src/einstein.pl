@@ -113,15 +113,15 @@ check_japanese([_ | Rest]) :-
 	check_lucky(Rest).
 
 generate([A, B, C, D, E]) :-
-	color(CoA), inhabitant(InA), pet(PeA), drink(DrA), cigarette(CiA),
+	findall(X, color(X), Colors), permutation(Colors, [CoA, CoB, CoC, CoD, CoE]),
+	findall(X, inhabitant(X), Inhabitants), permutation(Inhabitants, [InA, InB, InC, InD, InE]),
+	findall(X, pet(X), Pets), permutation(Pets, [PeA, PeB, PeC, PeD, PeE]),
+	findall(X, drink(X), Drinks), permutation(Drinks, [DrA, DrB, DrC, DrD, DrE]),
+	findall(X, cigarette(X), Cigarettes), permutation(Cigarettes, [CiA, CiB, CiC, CiD, CiE]),
 	A = [CoA, InA, PeA, DrA, CiA],
-	color(CoB), inhabitant(InB), pet(PeB), drink(DrB), cigarette(CiB),
 	B = [CoB, InB, PeB, DrB, CiB],
-	color(CoC), inhabitant(InC), pet(PeC), drink(DrC), cigarette(CiC),
 	C = [CoC, InC, PeC, DrC, CiC],
-	color(CoD), inhabitant(InD), pet(PeD), drink(DrD), cigarette(CiD),
 	D = [CoD, InD, PeD, DrD, CiD],
-	color(CoE), inhabitant(InE), pet(PeE), drink(DrE), cigarette(CiE),
 	E = [CoE, InE, PeE, DrE, CiE].
 
 test(Houses) :-
