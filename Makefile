@@ -4,7 +4,8 @@ default: run
 run:
 	@swipl -q -l src/main.pl -g "main, halt"
 
-TESTS = einstein_testgenerate.plt
+TESTS = einstein_testgenerate.plt \
+	einstein_constraints.plt
 
 test: $(TESTS)
 
