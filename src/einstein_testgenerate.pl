@@ -26,13 +26,14 @@ next_to(A, B, Community) :-
 next_to(A, B, Community) :-
 	right_of(B, A, Community).
 
+are_distinct([[], [], [], [], []]).
+are_distinct([[C1 | C1R], [C2 | C2R], [C3 | C3R], [C4 | C4R], [C5 | C5R]]) :-
+	list_to_set([C1, C2, C3, C4, C5], [C1, C2, C3, C4, C5]),
+	are_distinct([C1R, C2R, C3R, C4R, C5R]).
+
 solve(Community) :-
 % 1) There are five houses in a row , each of a different color
 	length(Community, 5),
-	Community = [
-		[C1 | _], [C2 | _], [C3 | _], [C4 | _], [C5 | _]
-	],
-	list_to_set([C1, C2, C3, C4, C5], [C1, C2, C3, C4, C5]),
 % 2) The Englishman lives in the red house.
 	member([red, englishman, _, _, _], Community),
 % 3) The Spaniard owns the dog.
@@ -64,4 +65,6 @@ solve(Community) :-
 % Missing membership of a water drinker
 	member([_, _, _, water, _], Community),
 % Missing membership of the person owning the zebra
-	member([_, _, zebra, _, _], Community).
+	member([_, _, zebra, _, _], Community),
+% Check if all values are distinct
+	are_distinct(Community).
