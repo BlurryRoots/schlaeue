@@ -1,4 +1,4 @@
-% module for solving a einstein puzzle
+% Module for solving a einstein puzzle
 
 /* problem domains
 	color (red, green, ivory, blue, yellow)
@@ -9,27 +9,6 @@
 
 	Entry [Color, Inhabitant, Pet, Drink, Cigarette]
 */
-
-% checks if the resident has the first house in the community
-first(A, [A | _Rest]).
-
-middle(A, [_, _, A, _, _]).
-
-% checks if A lives (directly) to the right of B
-right_of(A, B, [B, A | _Rest]).
-right_of(A, B, [_ | Rest]) :-
-	right_of(A, B, Rest).
-
-% checks if A lives either to the right or the left of B
-next_to(A, B, Community) :-
-	right_of(A, B, Community).
-next_to(A, B, Community) :-
-	right_of(B, A, Community).
-
-are_distinct([[], [], [], [], []]).
-are_distinct([[C1 | C1R], [C2 | C2R], [C3 | C3R], [C4 | C4R], [C5 | C5R]]) :-
-	list_to_set([C1, C2, C3, C4, C5], [C1, C2, C3, C4, C5]),
-	are_distinct([C1R, C2R, C3R, C4R, C5R]).
 
 solve(Community) :-
 % 1) There are five houses in a row , each of a different color
@@ -68,3 +47,25 @@ solve(Community) :-
 	member([_, _, zebra, _, _], Community),
 % Check if all values are distinct
 	are_distinct(Community).
+
+% Checks if the resident has the first house in the community
+first(A, [A | _Rest]).
+
+middle(A, [_, _, A, _, _]).
+
+% Checks if A lives (directly) to the right of B
+right_of(A, B, [B, A | _Rest]).
+right_of(A, B, [_ | Rest]) :-
+	right_of(A, B, Rest).
+
+% Checks if A lives either to the right or the left of B
+next_to(A, B, Community) :-
+	right_of(A, B, Community).
+next_to(A, B, Community) :-
+	right_of(B, A, Community).
+
+% Check if the houses have distinct attributes.
+are_distinct([[], [], [], [], []]).
+are_distinct([[C1 | C1R], [C2 | C2R], [C3 | C3R], [C4 | C4R], [C5 | C5R]]) :-
+	list_to_set([C1, C2, C3, C4, C5], [C1, C2, C3, C4, C5]),
+	are_distinct([C1R, C2R, C3R, C4R, C5R]).
