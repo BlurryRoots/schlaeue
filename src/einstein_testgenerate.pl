@@ -44,7 +44,7 @@ solve(Community) :-
 % 9) Milk is drunk in the middle house.
 	[_, _, [_, _, _, milk, _], _, _] = Community,
 %10) The Norwegian lives in the first house on the left.
-	[[_, norwegian, _, _, _], _, _, _, _] = Community,
+	first([_, norwegian, _, _, _], Community),
 %11) The man who smokes Chesterfields lives in the house next to the man with the fox.
 	next_to([_, _, _, _, chesterfield], [_, _, fox, _, _], Community),
 %12) Kools are smoked in the house next to the house where the horse is kept.
