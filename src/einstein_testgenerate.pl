@@ -13,6 +13,8 @@
 % checks if the resident has the first house in the community
 first(A, [A | _Rest]).
 
+middle(A, [_, _, A, _, _]).
+
 % checks if A lives (directly) to the right of B
 right_of(A, B, [B, A | _Rest]).
 right_of(A, B, [_ | Rest]) :-
@@ -27,6 +29,10 @@ next_to(A, B, Community) :-
 solve(Community) :-
 % 1) There are five houses in a row , each of a different color
 	length(Community, 5),
+	Community = [
+		[C1 | _], [C2 | _], [C3 | _], [C4 | _], [C5 | _]
+	],
+	list_to_set([C1, C2, C3, C4, C5], [C1, C2, C3, C4, C5]),
 % 2) The Englishman lives in the red house.
 	member([red, englishman, _, _, _], Community),
 % 3) The Spaniard owns the dog.
@@ -42,7 +48,7 @@ solve(Community) :-
 % 8) Kools are smoked in the yellow house.
 	member([yellow, _, _, _, kools], Community),
 % 9) Milk is drunk in the middle house.
-	[_, _, [_, _, _, milk, _], _, _] = Community,
+	middle([_, _, _, milk, _], Community),
 %10) The Norwegian lives in the first house on the left.
 	first([_, norwegian, _, _, _], Community),
 %11) The man who smokes Chesterfields lives in the house next to the man with the fox.
