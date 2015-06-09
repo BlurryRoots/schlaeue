@@ -1,5 +1,31 @@
 :- use_module(library(clpfd)).
 
+color(red).
+color(green).
+color(ivory).
+color(blue).
+color(yellwo).
+inhabitant(englishman).
+inhabitant(spaniard).
+inhabitant(ukrainian).
+inhabitant(norwegian).
+inhabitant(japanese).
+pet(dog).
+pet(snake).
+pet(zebra).
+pet(fox).
+pet(horse).
+drink(tea).
+drink(orange_juice).
+drink(milk).
+drink(water).
+drink(coffee).
+cigarette(old_gold).
+cigarette(kools).
+cigarette(chesterfield).
+cigarette(lucky_strike).
+cigarette(parliament).
+
 right_of(2, 1).
 right_of(3, 2).
 right_of(4, 3).
@@ -11,7 +37,22 @@ next_to(5, 1).
 next_to(A, B) :-
 	(A #= B + 1) #\/ (A #= B - 1).
 
-solve(Colors, Inhabitants, Pets, Drinks, Cigarettes) :-
+map_values([], _, _).
+map_values(_, [], _).
+map_values([Value | VRest], [Index | IRest], Mapping) :-
+	false.
+map_values(Type, Indices, Mapping) :-
+	Pattern =.. [Type, Value],
+	forall(
+		Value,
+		Pattern,
+		Values
+	),
+	map_values(Values, Indices, Mapping).
+
+solve(Community) :-
+	Community = [Colors, Inhabitants, Pets, Drinks, Cigarettes],
+
 	Colors = [Red, Green, Ivory, Blue, Yellow],
 	Inhabitants = [Englishman, Spaniard, Ukrainian, Norwegian, Japanese],
 	Pets = [Dog, Snake, Zebra, Fox, Horse],
@@ -66,5 +107,6 @@ solve(Colors, Inhabitants, Pets, Drinks, Cigarettes) :-
 	Japanese #= Parliament,
 	%15) The Norwegian lives next to the blue house
 	Norwegian #= Blue,
+	%
 	Water #\= 0,
 	Zebra #\= 0.

@@ -23,6 +23,9 @@ test(next, [setup(prepare)]) :-
 	assertion(next_to(2, 3)),
 	assertion(next_to(3, 2)).
 
+test(mapping, [setup(prepare), fail]) :-
+	false.
+
 test(solving, [setup(prepare), nondet, fail]) :-
 	false.
 
