@@ -1,39 +1,5 @@
 :- use_module(library(clpfd)).
 
-right_of(A, B) :-
-	A #= B + 1.
-
-next_to(A, B) :-
-	right_of(A, B).
-next_to(A, B) :-
-	A #= B - 1.
-
-% maps the solved domains to the possible values and builds the houses
-map([], [], Accu, Mapping) :-
-	% at the end of recursion, reverse to get right order back
-	reverse(Accu, Reversed),
-	% and create new lists which are the values at each index in given list
-	transpose(Reversed, Mapping).
-map([D | RestD], [V | RestV], Accu, Mapping) :-
-	% map domain (numbers) to the possible values, where the key is the house
-	% number and the value is the possible value (like dog or norwegian)
-	% see http://www.swi-prolog.org/pldoc/doc_for?object=pairs_keys_values/3
-	pairs_keys_values(Pairs, D, V),
-	% sort the entries by key (house number), relation works on associate lists
-	keysort(Pairs, SortedPairs),
-	% extract the sorted values so they can later be transposed
-	pairs_keys_values(SortedPairs, _, SortedValues),
-	% recurse to build the matrix
-	map(RestD, RestV, [SortedValues | Accu], Mapping).
-map(Domains, Values, Mapping) :-
-	% call helper
-	map(Domains, Values, [], Mapping).
-
-define_domain(Domain) :-
-	Domain ins 1..5, all_distinct(Domain).
-pindown_domain(Domain) :-
-	label(Domain).
-
 solve(Community) :-
 	% Define the problems domains.
 	Domains = [Colors, Inhabitants, Pets, Drinks, Cigarettes],
@@ -103,3 +69,41 @@ solve(Community) :-
 		[old_gold, kools, chesterfield, lucky_strike, parliament]
 	],
 	map(Domains, Values, Community).
+
+% Defines the given domain. In our case always from 1 through 5 with every
+% value being distinct.
+define_domain(Domain) :-
+	Domain ins 1..5, all_distinct(Domain).
+% Forces the solver to generate a particular solution.
+pindown_domain(Domain) :-
+	label(Domain).
+
+% Figure out if A is the righthand neighbour of B.
+right_of(A, B) :-
+	A #= B + 1.
+% Check if A is either to the left or to the right of B.
+next_to(A, B) :-
+	right_of(A, B).
+next_to(A, B) :-
+	A #= B - 1.
+
+% maps the solved domains to the possible values and builds the houses
+map([], [], Accu, Mapping) :-
+	% at the end of recursion, reverse to get right order back
+	reverse(Accu, Reversed),
+	% and create new lists which are the values at each index in given list
+	transpose(Reversed, Mapping).
+map([D | RestD], [V | RestV], Accu, Mapping) :-
+	% map domain (numbers) to the possible values, where the key is the house
+	% number and the value is the possible value (like dog or norwegian)
+	% see http://www.swi-prolog.org/pldoc/doc_for?object=pairs_keys_values/3
+	pairs_keys_values(Pairs, D, V),
+	% sort the entries by key (house number), relation works on associate lists
+	keysort(Pairs, SortedPairs),
+	% extract the sorted values so they can later be transposed
+	pairs_keys_values(SortedPairs, _, SortedValues),
+	% recurse to build the matrix
+	map(RestD, RestV, [SortedValues | Accu], Mapping).
+map(Domains, Values, Mapping) :-
+	% call helper
+	map(Domains, Values, [], Mapping).
