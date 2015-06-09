@@ -16,17 +16,13 @@ prepare :-
 	consult('src/einstein_constraints').
 
 test(right, [setup(prepare)]) :-
-	% 1, 2, 3, 4, 5 -> 1
-	assertion(right_of(1, 5)).
+	assertion(right_of(2, 1)).
 
 test(next, [setup(prepare)]) :-
 	assertion(next_to(2, 3)),
 	assertion(next_to(3, 2)).
 
-test(mapping, [setup(prepare), fail]) :-
-	false.
-
-test(solving, [setup(prepare), nondet, fail]) :-
-	false.
+test(solving, [setup(prepare), nondet]) :-
+	solve(_).
 
 :- end_tests(einstein_constraints).

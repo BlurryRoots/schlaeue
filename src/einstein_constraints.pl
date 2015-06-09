@@ -1,83 +1,59 @@
 :- use_module(library(clpfd)).
 
-color(red).
-color(green).
-color(ivory).
-color(blue).
-color(yellwo).
-inhabitant(englishman).
-inhabitant(spaniard).
-inhabitant(ukrainian).
-inhabitant(norwegian).
-inhabitant(japanese).
-pet(dog).
-pet(snake).
-pet(zebra).
-pet(fox).
-pet(horse).
-drink(tea).
-drink(orange_juice).
-drink(milk).
-drink(water).
-drink(coffee).
-cigarette(old_gold).
-cigarette(kools).
-cigarette(chesterfield).
-cigarette(lucky_strike).
-cigarette(parliament).
+right_of(A, B) :-
+	A #= B + 1.
 
-right_of(2, 1).
-right_of(3, 2).
-right_of(4, 3).
-right_of(5, 4).
-right_of(1, 5).
-
-next_to(1, 5).
-next_to(5, 1).
 next_to(A, B) :-
-	(A #= B + 1) #\/ (A #= B - 1).
+	right_of(A, B).
+next_to(A, B) :-
+	A #= B - 1.
 
-map_values([], _, _).
-map_values(_, [], _).
-map_values([Value | VRest], [Index | IRest], Mapping) :-
-	false.
-map_values(Type, Indices, Mapping) :-
-	Pattern =.. [Type, Value],
-	forall(
-		Value,
-		Pattern,
-		Values
-	),
-	map_values(Values, Indices, Mapping).
+% maps the solved domains to the possible values and builds the houses
+map([], [], Accu, Mapping) :-
+	% at the end of recursion, reverse to get right order back
+	reverse(Accu, Reversed),
+	% and create new lists which are the values at each index in given list
+	transpose(Reversed, Mapping).
+map([D | RestD], [V | RestV], Accu, Mapping) :-
+	% map domain (numbers) to the possible values, where the key is the house
+	% number and the value is the possible value (like dog or norwegian)
+	% see http://www.swi-prolog.org/pldoc/doc_for?object=pairs_keys_values/3
+	pairs_keys_values(Pairs, D, V),
+	% sort the entries by key (house number), relation works on associate lists
+	keysort(Pairs, SortedPairs),
+	% extract the sorted values so they can later be transposed
+	pairs_keys_values(SortedPairs, _, SortedValues),
+	% recurse to build the matrix
+	map(RestD, RestV, [SortedValues | Accu], Mapping).
+map(Domains, Values, Mapping) :-
+	% call helper
+	map(Domains, Values, [], Mapping).
+
+define_domain(Domain) :-
+	Domain ins 1..5, all_distinct(Domain).
+pindown_domain(Domain) :-
+	label(Domain).
 
 solve(Community) :-
-	Community = [Colors, Inhabitants, Pets, Drinks, Cigarettes],
-
-	Colors = [Red, Green, Ivory, Blue, Yellow],
-	Inhabitants = [Englishman, Spaniard, Ukrainian, Norwegian, Japanese],
-	Pets = [Dog, Snake, Zebra, Fox, Horse],
-	Drinks = [Tea, OrangeJuice, Milk, Water, Coffee],
-	Cigarettes = [OldGold, Kools, Chesterfield, LuckyStrike, Parliament],
-
+	% Define the problems domains.
+	Domains = [Colors, Inhabitants, Pets, Drinks, Cigarettes],
 	% color (red, green, ivory, blue, yellow)
-	Colors ins 1..5,
+	Colors = [Red, Green, Ivory, Blue, Yellow],
+	define_domain(Colors),
 	% inhabitant (englishman, spaniard, ukrainian, norwegian, japanese)
-	Inhabitants ins 1..5,
+	Inhabitants = [Englishman, Spaniard, Ukrainian, Norwegian, Japanese],
+	define_domain(Inhabitants),
 	% pet (dog, snake, zebra, fox, horse)
-	Pets ins 1..5,
+	Pets = [Dog, Snake, Zebra, Fox, Horse],
+	define_domain(Pets),
 	% drink (tea, orange_juice, milk, water, coffee)
-	Drinks ins 1..5,
+	Drinks = [Tea, OrangeJuice, Milk, Water, Coffee],
+	define_domain(Drinks),
 	% cigarette (old_gold, kools, chesterfield, lucky_strike, parliament)
-	Cigarettes ins 1..5,
+	Cigarettes = [OldGold, Kools, Chesterfield, LuckyStrike, Parliament],
+	define_domain(Cigarettes),
 
-	all_distinct(Colors),
-	all_distinct(Inhabitants),
-	all_distinct(Pets),
-	all_distinct(Drinks),
-	all_distinct(Cigarettes),
 	% 1) There are five houses in a row , each of a different color.
-
-	% Entry [Color, Inhabitant, Pet, Drink, Cigarette].
 
 	% 2) The Englishman lives in the red house.
 	Englishman #= Red,
@@ -100,13 +76,30 @@ solve(Community) :-
 	%11) The man who smokes Chesterfields lives in the house next to the man with the fox.
 	next_to(Fox, Chesterfield),
 	%12) Kools are smoked in the house next to the house where the horse is kept.
-	next_to(Horse, Kools),
+	next_to(Kools, Horse),
 	%13) The Lucky Strike smoker drinks orange juice.
 	LuckyStrike #= OrangeJuice,
 	%14) The Japanese smoke Parliaments.
 	Japanese #= Parliament,
 	%15) The Norwegian lives next to the blue house
-	Norwegian #= Blue,
-	%
-	Water #\= 0,
-	Zebra #\= 0.
+	next_to(Norwegian, Blue),
+
+	% To suppress the unused warnings
+	Zebra #\= 0, Water #\= 0,
+
+	% Pin down all Variables, so a definitive answer can be found.
+	pindown_domain(Colors),
+	pindown_domain(Inhabitants),
+	pindown_domain(Pets),
+	pindown_domain(Drinks),
+	pindown_domain(Cigarettes),
+
+	% build the community by mapping the domain values to their values
+	Values = [
+		[red, green, ivory, blue, yellow],
+		[englishman, spaniard, ukrainian, norwegian, japanese],
+		[dog, snake, zebra, fox, horse],
+		[tea, orange_juice, milk, water, coffee],
+		[old_gold, kools, chesterfield, lucky_strike, parliament]
+	],
+	map(Domains, Values, Community).
