@@ -1,4 +1,4 @@
-% Module for solving a einstein puzzle
+% Module for solving a einstein puzzle.
 
 /* problem domains
 	color (red, green, ivory, blue, yellow)
@@ -48,17 +48,17 @@ solve(Community) :-
 % Check if all values are distinct
 	are_distinct(Community).
 
-% Checks if the resident has the first house in the community
+% Checks if the resident has the first house in the community.
 first(A, [A | _Rest]).
-
+% Check if A lives in the middle.
 middle(A, [_, _, A, _, _]).
 
-% Checks if A lives (directly) to the right of B
+% Checks if A lives (directly) to the right of B.
 right_of(A, B, [B, A | _Rest]).
 right_of(A, B, [_ | Rest]) :-
 	right_of(A, B, Rest).
 
-% Checks if A lives either to the right or the left of B
+% Checks if A lives either to the right or the left of B.
 next_to(A, B, Community) :-
 	right_of(A, B, Community).
 next_to(A, B, Community) :-
