@@ -50,7 +50,7 @@ solve(Community) :-
 	%15) The Norwegian lives next to the blue house
 	next_to(Norwegian, Blue),
 
-	% To suppress the unused warnings
+	% To suppress the unused warnings.
 	Zebra #\= 0, Water #\= 0,
 
 	% Pin down all Variables, so a definitive answer can be found.
