@@ -22,6 +22,9 @@ def swap (board, pos, otherpos):
     return board
 
 def can_move (board, animal, pos):
+    if not is_in_bounds (board, pos):
+        return 0
+
     sign = 0
     if TOAD == animal:
         sign = 1
@@ -30,13 +33,14 @@ def can_move (board, animal, pos):
     else:
         raise Error ("Unkown animal type!")
 
-    step_width = sign * 1
-    if is_empty (board, pos + step_width):
+    step_width = sign
+    if is_in_bounds (board, pos + step_width) \
+    and is_empty (board, pos + step_width):
         return step_width
 
-    step_width = step_width + (sign * 1)
-    if is_frog (board, pos + step_width) \
-    and is_in_bounds (board, pos + step_width) \
+    step_width = step_width + sign
+    if is_in_bounds (board, pos + step_width) \
+    and  is_frog (board, pos + step_width) \
     and is_empty (board, pos + step_width):
         return step_width
 
