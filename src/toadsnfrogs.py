@@ -72,3 +72,68 @@ def try_take_turn (board, animal_type, animal_id, number_animals):
         return try_take_turn (board, animal_type, animal_id + 1, number_animals)
     else:
         return False, new_board
+
+
+def swap_animal_type(animal_type):
+    if FROG == animal_type:
+        return TOAD
+    elif TOAD == animal_type:
+        return FROG
+    else:
+        raise TypeError("NOOOOOO!")
+
+
+class TreeNode():
+    """keks"""
+    def __init__(self, last_animal_type, animal_id, board):
+        self.last_animal_type = last_animal_type
+        self.animal_id = animal_id
+        self.board = board
+        self.alternatives = []
+
+    def add_alternative(self, tree_node):
+        list.append(self.alternatives, tree_node)
+
+    def __str__(self):
+        alt_str = "[\n"
+        alt_len = len(self.alternatives)
+        alt_idx = 1
+
+        for alt in self.alternatives:
+            alt_str = alt_str + str(alt)
+
+            if alt_idx < alt_len:
+                alt_str = alt_str + ","
+
+            alt_str = alt_str + "\n"
+            alt_idx = alt_idx + 1
+
+        alt_str = alt_str + "]"
+
+        return ("{\n"
+            + "\t\"board\": " + str(self.board) + "\n"
+            + "\t\"last_animal_type\": " + self.last_animal_type + "\n"
+            + "\t\"animal_id\": " + str(self.animal_id) + "\n"
+            + "\t\"alternatives\": " + alt_str
+            + "\n}")
+
+
+import copy
+def build_game_tree (board, node, animal_type, number_animals):
+    animal_id = 1
+    while number_animals >= animal_id:
+        valid, new_board = take_turn(board, animal_type, animal_id)
+        if valid:
+            new_node = TreeNode(animal_type, animal_id, new_board)
+            # play next turn
+            node.add_alternative(
+                build_game_tree(
+                    new_board,
+                    new_node,
+                    swap_animal_type(animal_type),
+                    number_animals
+                )
+            )
+        animal_id = animal_id + 1
+
+    return node
