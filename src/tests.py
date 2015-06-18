@@ -5,6 +5,7 @@ TOAD = 't'
 FROG = 'f'
 EMPTY = '#'
 
+
 class TestToadsFrogs(unittest.TestCase):
     def setUp(self):
         self.board = ['t1', 't2', '#', 'f1', 'f2']
