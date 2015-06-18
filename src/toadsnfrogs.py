@@ -21,9 +21,11 @@ def swap (board, pos, otherpos):
     board[pos], board[otherpos] = board[otherpos], board[pos]
     return board
 
-def can_move (board, animal_type, pos):
+def can_move (board, pos):
     if not is_in_bounds (board, pos):
         return 0
+
+    animal_type = board[pos][:1]
 
     sign = 0
     if TOAD == animal_type:
@@ -55,7 +57,7 @@ def take_turn (board, animal_type, nr):
     name = animal_type + str (nr)
     pos = list.index (board, name)
 
-    step_width = can_move (board, animal_type, pos)
+    step_width = can_move (board, pos)
     if 0 != step_width:
         return True, move (board, pos, step_width)
     else:
