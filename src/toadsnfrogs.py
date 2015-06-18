@@ -33,7 +33,7 @@ def can_move (board, pos):
     elif FROG == animal_type:
         sign = -1
     else:
-        raise Exception ("Unkown animal type!")
+        raise TypeError ("Unkown animal type!")
 
     step_width = sign
     if is_in_bounds (board, pos + step_width) \
