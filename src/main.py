@@ -21,4 +21,4 @@ def game ():
 		animal_type = swap_animal_type(animal_type)
 
 if __name__ == '__main__':
-	game ()
+    game()
