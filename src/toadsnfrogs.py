@@ -26,9 +26,9 @@ def can_move (board, animal_type, pos):
         return 0
 
     sign = 0
-    if TOAD == animal:
+    if TOAD == animal_type:
         sign = 1
-    elif FROG == animal:
+    elif FROG == animal_type:
         sign = -1
     else:
         raise Error ("Unkown animal type!")
@@ -63,6 +63,12 @@ def take_turn (board, animal_type, nr):
     else:
         return False, board
 
-def try_take_turn (board, animal_type, number_animals):
-    animal_id = 1
 
+def try_take_turn (board, animal_type, animal_id, number_animals):
+    status, new_board = take_turn (board, animal_type, animal_id)
+    if status:
+        return True, new_board
+    if not status and animal_id < number_animals:
+        return try_take_turn (board, animal_type, animal_id + 1, number_animals)
+    else:
+        return False, new_board
