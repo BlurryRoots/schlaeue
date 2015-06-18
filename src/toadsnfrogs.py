@@ -48,9 +48,7 @@ def can_move (board, animal_type, pos):
 
 
 def move (board, pos, step_width):
-    swap (board, pos, pos + step_width)
-
-    return board
+    return swap (board, pos, pos + step_width)
 
 
 def take_turn (board, animal_type, nr):
