@@ -23,11 +23,12 @@ class TestToadsFrogs(unittest.TestCase):
         self.assertEqual(new_board, ['t1', 'f1', '#', 'f2', 't2'])
 
     def test_can_move(self):
-        self.assertEqual(1, toadsnfrogs.can_move(self.board, TOAD, 1))
-        self.assertEqual(0, toadsnfrogs.can_move(self.board, TOAD, 0))
-        self.assertEqual(-1, toadsnfrogs.can_move(self.board, FROG, 3))
-        self.assertEqual(0, toadsnfrogs.can_move(self.board, FROG, 4))
-        self.assertEqual(0, toadsnfrogs.can_move(self.board, FROG, 2))
+        self.assertEqual(1, toadsnfrogs.can_move(self.board, 1))
+        self.assertEqual(0, toadsnfrogs.can_move(self.board, 0))
+        self.assertEqual(-1, toadsnfrogs.can_move(self.board, 3))
+        self.assertEqual(0, toadsnfrogs.can_move(self.board, 4))
+        with self.assertRaises(TypeError):
+            toadsnfrogs.can_move(self.board, 2)
 
 if __name__ == '__main__':
     unittest.main()
