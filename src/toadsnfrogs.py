@@ -116,21 +116,35 @@ class TreeNode():
 
         alt_str = alt_str + "]"
 
+        board_len = len(self.board)
+        board_idx = 1
+        board_str = "["
+        for token in self.board:
+            board_str = board_str + "\"" + token + "\""
+
+            if board_idx < board_len:
+                board_str = board_str + ","
+
+            board_idx = board_idx + 1
+
+        board_str = board_str + "]"
+
         return ("{\n"
-            + "\t\"board\": " + str(self.board) + "\n"
-            + "\t\"last_animal_type\": " + self.last_animal_type + "\n"
-            + "\t\"animal_id\": " + str(self.animal_id) + "\n"
+            + "\t\"board\": " + board_str + ",\n"
+            + "\t\"last_animal_type\": \"" + self.last_animal_type + "\",\n"
+            + "\t\"animal_id\": " + str(self.animal_id) + ",\n"
             + "\t\"alternatives\": " + alt_str
             + "\n}")
 
 
 import copy
 def build_game_tree (board, node, animal_type, number_animals):
+    board_copy = copy.deepcopy(board)
     animal_id = 1
     while number_animals >= animal_id:
-        valid, new_board = take_turn(board, animal_type, animal_id)
+        valid, new_board = take_turn(board_copy, animal_type, animal_id)
         if valid:
-            new_node = TreeNode(animal_type, animal_id, new_board)
+            new_node = TreeNode(animal_type, animal_id, copy.deepcopy(new_board))
             # play next turn
             node.add_alternative(
                 build_game_tree(

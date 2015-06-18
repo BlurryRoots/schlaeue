@@ -6,9 +6,10 @@ def game ():
 	number_animals = 3
 	can_move = True
 	animal_type = FROG
+	boad_copy = copy.deepcopy(board)
 	tree = build_game_tree(
-		copy.deepcopy(board),
-		TreeNode(animal_type, 1, board),
+		boad_copy,
+		TreeNode(animal_type, 1, boad_copy),
 		animal_type,
 		number_animals
 	)
@@ -16,8 +17,8 @@ def game ():
 	print("Starting game:\n")
 	print(board)
 	while can_move:
-		can_move, board = try_take_turn(board, animal_type, 1, number_animals)
-		print(board)
+		can_move, new_board = try_take_turn(board, animal_type, 1, number_animals)
+		print(new_board)
 		animal_type = swap_animal_type(animal_type)
 
 if __name__ == '__main__':
