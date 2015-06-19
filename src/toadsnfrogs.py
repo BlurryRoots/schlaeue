@@ -13,6 +13,15 @@ def is_frog(board, pos):
     return FROG == name[:1]
 
 
+def is_enemy(board, pos, otherpos):
+    if is_frog(board, pos):
+        return is_toad(board, otherpos)
+    elif is_toad(board, pos):
+        return is_frog(board, otherpos)
+    else:
+        raise TypeError("Only frogs and toads have enemies!")
+
+
 def is_empty(board, pos):
     name = board[pos]
     return EMPTY == name[:1]
@@ -31,26 +40,27 @@ def can_move(board, pos):
     if not is_in_bounds(board, pos):
         return 0
 
-    animal_type = board[pos][:1]
-
     sign = 0
-    if TOAD == animal_type:
+    if is_toad(board, pos):
         sign = 1
-    elif FROG == animal_type:
+    elif is_frog(board, pos):
         sign = -1
     else:
         raise TypeError("Unkown animal type!")
 
-    step_width = sign
-    if (is_in_bounds(board, pos + step_width)
-            and is_empty(board, pos + step_width)):
-        return step_width
+    # asdf
+    target_field = pos + (1 * sign)
+    if (is_in_bounds(board, target_field)
+            and is_empty(board, target_field)):
+        return (1 * sign)
 
-    step_width = step_width + sign
-    if (is_in_bounds(board, pos + step_width)
-            and is_frog(board, pos + step_width)
-            and is_empty(board, pos + step_width)):
-        return step_width
+    # can a turn be taken by jumping over an enemy?
+    obstical = target_field
+    target_field = pos + (2 * sign)
+    if (is_in_bounds(board, target_field)
+            and is_empty(board, target_field)
+            and is_enemy(board, pos, obstical)):
+        return (2 * sign)
 
     return 0
 
@@ -90,7 +100,6 @@ def swap_animal_type(animal_type):
 
 
 class TreeNode():
-    """keks"""
     def __init__(self, last_animal_type, animal_id, board):
         self.last_animal_type = last_animal_type
         self.animal_id = animal_id
@@ -98,7 +107,7 @@ class TreeNode():
         self.alternatives = []
 
     def add_alternative(self, tree_node):
-        list.append(self.alternatives, tree_node)
+        self.alternatives.append(tree_node)
 
     def __str__(self):
         alt_str = "[\n"
@@ -136,24 +145,33 @@ class TreeNode():
             + "\t\"alternatives\": " + alt_str
             + "\n}")
 
-
 import copy
-def build_game_tree (board, node, animal_type, number_animals):
-    board_copy = copy.deepcopy(board)
+
+def build_game_tree (board, animal_type, number_animals):
     animal_id = 1
-    while number_animals >= animal_id:
-        valid, new_board = take_turn(board_copy, animal_type, animal_id)
-        if valid:
-            new_node = TreeNode(animal_type, animal_id, copy.deepcopy(new_board))
-            # play next turn
-            node.add_alternative(
-                build_game_tree(
-                    new_board,
-                    new_node,
-                    swap_animal_type(animal_type),
-                    number_animals
-                )
-            )
+    had_turn = False
+    root = TreeNode(animal_type, -1, copy.deepcopy(board))
+
+    # check all alternatives for this round
+    while animal_id <= number_animals:
+        name = animal_type + str(animal_id)
+        pos = list.index(board, name)
+        step_width = can_move(board, pos)
+
+        # animal can move
+        if 0 != step_width:
+            had_turn = True
+            moved_board = move(copy.deepcopy(board), pos, step_width)
+            moved_node = TreeNode(animal_type, animal_id, copy.deepcopy(moved_board))
+            # let opponent take turn to this alternative
+            moved_node.add_alternative(build_game_tree(
+                moved_board,
+                swap_animal_type(animal_type),
+                number_animals
+            ))
+            root.add_alternative(moved_node)
+
         animal_id = animal_id + 1
 
-    return node
+    return root
+
