@@ -11,14 +11,26 @@ class TestToadsFrogs(unittest.TestCase):
         self.board = ['t1', 't2', '#', 'f1', 'f2']
 
     def test_helper(self):
-        self.assertTrue(toadsnfrogs.is_empty(['t1', '#', 't2', 'f1', 'f2'], 1))
-        self.assertFalse(toadsnfrogs.is_empty(['t1', '#', 't2', 'f1', 'f2'], 4))
-        self.assertFalse(toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], 5))
-        self.assertFalse(toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], -1))
-        self.assertTrue(toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], 0))
+        self.assertTrue(
+            toadsnfrogs.is_empty(['t1', '#', 't2', 'f1', 'f2'], 1))
+        self.assertFalse(
+            toadsnfrogs.is_empty(['t1', '#', 't2', 'f1', 'f2'], 4)
+        )
+        self.assertFalse(
+            toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], 5)
+        )
+        self.assertFalse(
+            toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], -1)
+        )
+        self.assertTrue(
+            toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], 0)
+        )
 
     def test_swap(self):
-        self.assertEqual(toadsnfrogs.swap(['t1', 't2', '#', 'f1', 'f2'], 1, 2), ['t1', '#', 't2', 'f1', 'f2'])
+        self.assertEqual(
+            toadsnfrogs.swap(['t1', 't2', '#', 'f1', 'f2'], 1, 2),
+            ['t1', '#', 't2', 'f1', 'f2']
+        )
 
     def test_identity_functions(self):
         self.assertTrue(toadsnfrogs.is_toad(['t1', '#', 't2', 'f1', 'f2'], 0))
@@ -29,9 +41,15 @@ class TestToadsFrogs(unittest.TestCase):
         self.assertFalse(toadsnfrogs.is_frog(['t1', 't2', '#', 'f1', 'f2'], 2))
 
     def test_enemey(self):
-        self.assertFalse(toadsnfrogs.is_enemy(['t1', 't2', '#', 'f1', 'f2'], 0, 1))
-        self.assertTrue(toadsnfrogs.is_enemy(['t1', 't2', 'f1', '#', 'f2'], 1, 2))
-        self.assertTrue(toadsnfrogs.is_enemy(['t1', 't2', 'f1', '#', 'f2'], 1, 4))
+        self.assertFalse(
+            toadsnfrogs.is_enemy(['t1', 't2', '#', 'f1', 'f2'], 0, 1)
+        )
+        self.assertTrue(
+            toadsnfrogs.is_enemy(['t1', 't2', 'f1', '#', 'f2'], 1, 2)
+        )
+        self.assertTrue(
+            toadsnfrogs.is_enemy(['t1', 't2', 'f1', '#', 'f2'], 1, 4)
+        )
 
     def test_move(self):
         new_board = toadsnfrogs.move(self.board, 1, 1)
@@ -47,11 +65,26 @@ class TestToadsFrogs(unittest.TestCase):
         self.assertEqual(new_board, ['t1', 'f1', '#', 'f2', 't2'])
 
     def test_can_move_hard(self):
-        self.assertEqual(toadsnfrogs.can_move(['t1', 't2', '#', 'f1', 'f2'], 3), -1)
-        self.assertEqual(toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 2), 0)
-        self.assertEqual(toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 3), -2)
-        self.assertEqual(toadsnfrogs.can_move(['t1', 't2', 'f1', '#', 'f2'], 1), 2)
-        self.assertEqual(toadsnfrogs.can_move(['f1', '#', 't1', '#'], 0), 0)
+        self.assertEqual(
+            toadsnfrogs.can_move(['t1', 't2', '#', 'f1', 'f2'], 3),
+            -1
+        )
+        self.assertEqual(
+            toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 2),
+            0
+        )
+        self.assertEqual(
+            toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 3),
+            -2
+        )
+        self.assertEqual(
+            toadsnfrogs.can_move(['t1', 't2', 'f1', '#', 'f2'], 1),
+            2
+        )
+        self.assertEqual(
+            toadsnfrogs.can_move(['f1', '#', 't1', '#'], 0),
+            0
+        )
 
     def test_can_move(self):
         self.assertEqual(toadsnfrogs.can_move(self.board, 1), 1)

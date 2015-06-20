@@ -1,3 +1,6 @@
+
+import copy
+
 EMPTY = '#'
 TOAD = 't'
 FROG = 'f'
@@ -85,7 +88,9 @@ def try_take_turn(board, animal_type, animal_id, number_animals):
     if status:
         return True, new_board
     if not status and animal_id < number_animals:
-        return try_take_turn(board, animal_type, animal_id + 1, number_animals)
+        return try_take_turn(
+            board, animal_type, animal_id + 1, number_animals
+        )
     else:
         return False, new_board
 
@@ -138,16 +143,17 @@ class TreeNode():
 
         board_str = board_str + "]"
 
-        return ("{\n"
+        return (
+            "{\n"
             + "\t\"board\": " + board_str + ",\n"
             + "\t\"last_animal_type\": \"" + self.last_animal_type + "\",\n"
             + "\t\"animal_id\": " + str(self.animal_id) + ",\n"
             + "\t\"alternatives\": " + alt_str
-            + "\n}")
+            + "\n}"
+        )
 
-import copy
 
-def build_game_tree (board, animal_type, number_animals):
+def build_game_tree(board, animal_type, number_animals):
     animal_id = 1
     had_turn = False
     root = TreeNode(animal_type, -1, copy.deepcopy(board))
@@ -162,7 +168,9 @@ def build_game_tree (board, animal_type, number_animals):
         if 0 != step_width:
             had_turn = True
             moved_board = move(copy.deepcopy(board), pos, step_width)
-            moved_node = TreeNode(animal_type, animal_id, copy.deepcopy(moved_board))
+            moved_node = TreeNode(
+                animal_type, animal_id, copy.deepcopy(moved_board)
+            )
             # let opponent take turn to this alternative
             moved_node.add_alternative(build_game_tree(
                 moved_board,
@@ -174,4 +182,3 @@ def build_game_tree (board, animal_type, number_animals):
         animal_id = animal_id + 1
 
     return root
-
