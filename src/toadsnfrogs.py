@@ -28,7 +28,7 @@ def is_empty(board, pos):
 
 
 def is_in_bounds(board, pos):
-    return len(board) > pos
+    return len(board) > pos >= 0
 
 
 def swap(board, pos, otherpos):

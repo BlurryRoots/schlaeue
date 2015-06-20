@@ -10,6 +10,16 @@ class TestToadsFrogs(unittest.TestCase):
     def setUp(self):
         self.board = ['t1', 't2', '#', 'f1', 'f2']
 
+    def test_helper(self):
+        self.assertTrue(toadsnfrogs.is_empty(['t1', '#', 't2', 'f1', 'f2'], 1))
+        self.assertFalse(toadsnfrogs.is_empty(['t1', '#', 't2', 'f1', 'f2'], 4))
+        self.assertFalse(toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], 5))
+        self.assertFalse(toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], -1))
+        self.assertTrue(toadsnfrogs.is_in_bounds(['t1', '#', 't2', 'f1', 'f2'], 0))
+
+    def test_swap(self):
+        self.assertEqual(toadsnfrogs.swap(['t1', 't2', '#', 'f1', 'f2'], 1, 2), ['t1', '#', 't2', 'f1', 'f2'])
+
     def test_identity_functions(self):
         self.assertTrue(toadsnfrogs.is_toad(['t1', '#', 't2', 'f1', 'f2'], 0))
         self.assertTrue(toadsnfrogs.is_toad(['t1', 't2', '#', 'f1', 'f2'], 1))
@@ -37,16 +47,17 @@ class TestToadsFrogs(unittest.TestCase):
         self.assertEqual(new_board, ['t1', 'f1', '#', 'f2', 't2'])
 
     def test_can_move_hard(self):
-        self.assertEqual(-1, toadsnfrogs.can_move(['t1', 't2', '#', 'f1', 'f2'], 3))
-        self.assertEqual(0, toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 2))
-        self.assertEqual(-2, toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 3))
-        self.assertEqual(2, toadsnfrogs.can_move(['t1', 't2', 'f1', '#', 'f2'], 1))
+        self.assertEqual(toadsnfrogs.can_move(['t1', 't2', '#', 'f1', 'f2'], 3), -1)
+        self.assertEqual(toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 2), 0)
+        self.assertEqual(toadsnfrogs.can_move(['t1', '#', 't2', 'f1', 'f2'], 3), -2)
+        self.assertEqual(toadsnfrogs.can_move(['t1', 't2', 'f1', '#', 'f2'], 1), 2)
+        self.assertEqual(toadsnfrogs.can_move(['f1', '#', 't1', '#'], 0), 0)
 
     def test_can_move(self):
-        self.assertEqual(1, toadsnfrogs.can_move(self.board, 1))
-        self.assertEqual(0, toadsnfrogs.can_move(self.board, 0))
-        self.assertEqual(-1, toadsnfrogs.can_move(self.board, 3))
-        self.assertEqual(0, toadsnfrogs.can_move(self.board, 4))
+        self.assertEqual(toadsnfrogs.can_move(self.board, 1), 1)
+        self.assertEqual(toadsnfrogs.can_move(self.board, 0), 0)
+        self.assertEqual(toadsnfrogs.can_move(self.board, 3), -1)
+        self.assertEqual(toadsnfrogs.can_move(self.board, 4), 0)
         with self.assertRaises(TypeError):
             toadsnfrogs.can_move(self.board, 2)
 
