@@ -1,5 +1,5 @@
 import unittest
-from toadsnfrogs_new import Frog, Toad, Space, Board
+from toadsnfrogs import Frog, Toad, Space, Board
 
 
 class TestToadsFrogs(unittest.TestCase):
@@ -35,10 +35,10 @@ class TestToadsFrogs(unittest.TestCase):
         space = Space()
 
         board = Board([t1, t2, space, f1, f2])
-        self.assertEqual(0, board.can_move(0))
+        self.assertEqual(1, board.can_move(1))
+        self.assertEqual(-1, board.can_move(3))
         self.assertEqual(0, board.can_move(4))
-        with self.assertRaises(TypeError):
-            board.can_move(2)
+        self.assertEqual(0, board.can_move(2))
 
     def test_can_move_one_step(self):
         t1 = Toad(1)
