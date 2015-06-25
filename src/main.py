@@ -1,30 +1,26 @@
 from toadsnfrogs import *
-from tree import build_game_tree
-import copy
-
-
-def game():
-    board = ['t1', 't2', '#', '#', 'f1', 'f2']
-    number_animals = 2
-    can_move = True
-    animal_type = FROG
-    tree = build_game_tree(
-        copy.deepcopy(board),
-        animal_type,
-        number_animals
-    )
-    print("Game Tree:\n" + str(tree))
-    print("Starting game:\n")
-    print(str(board) + " start")
-    while can_move:
-        can_move, new_board = try_take_turn(
-            board, animal_type, 1, number_animals
-        )
-        print(str(new_board) + " turn by: " + animal_type)
-        animal_type = swap_animal_type(animal_type)
-
-    print(animal_type + " won!")
 
 
 if __name__ == '__main__':
-    game()
+    t1 = Toad(1)
+    t2 = Toad(2)
+    t3 = Toad(3)
+    f1 = Frog(1)
+    f2 = Frog(2)
+    f3 = Frog(3)
+    space = Space()
+    board = Board([t1, t2, t3, space, space, space, space, f1, f2, f3])
+    player = -1  # computer starts
+
+    print('starting game of frogsntoads')
+    print(board)
+    while not board.is_game_over(player):
+        board = next_move(board, player)
+        player = -player
+        print(board)
+
+    print('game over')
+    if player == 1:
+        print('computer wins')
+    elif player == -1:
+        print('you win!')
