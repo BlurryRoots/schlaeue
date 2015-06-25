@@ -150,6 +150,7 @@ def ask_move(board):
         except:
             pass
 
+        # TODO: doesnt that prohibit us from moving frogs as player?
         if steps > 0:
             break
         print('incorrect input, try again!')
