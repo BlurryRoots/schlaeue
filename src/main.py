@@ -1,10 +1,11 @@
 from toadsnfrogs import *
+from tree import build_game_tree
 import copy
 
 
 def game():
-    board = ['t1', '#', '#', 'f1']
-    number_animals = 1
+    board = ['t1', 't2', '#', '#', 'f1', 'f2']
+    number_animals = 2
     can_move = True
     animal_type = FROG
     tree = build_game_tree(

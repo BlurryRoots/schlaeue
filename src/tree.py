@@ -1,4 +1,5 @@
 import toadsnfrogs as tf
+import sys
 import copy
 
 
@@ -8,10 +9,21 @@ class TreeNode():
         self.animal_id = animal_id
         self.can_move = can_move
         self.board = board
+        self.heuristic_value = -sys.maxsize
         self.alternatives = []
 
     def add_alternative(self, tree_node):
         self.alternatives.append(tree_node)
+
+    def get_depth(self):
+        if 0 == len(self.alternatives):
+            return 0
+
+        alt_depth = 0
+        for alt in self.alternatives:
+            alt_depth = max(alt_depth, alt.get_depth())
+
+        return 1 + alt_depth
 
     def __str__(self):
         alt_str = "[\n"
@@ -48,15 +60,15 @@ class TreeNode():
             + "\t\"last_animal_type\": \"" + self.last_animal_type + "\",\n"
             + "\t\"animal_id\": " + str(self.animal_id) + ",\n"
             + "\t\"alternatives\": " + alt_str + ",\n"
-            + "\t\"can_move\": " + str(self.can_move).lower()
+            + "\t\"can_move\": " + str(self.can_move).lower() + ",\n"
+            + "\t\"depth\": " + str(self.get_depth())
             + "\n}"
         )
 
 
-def build_game_tree(board, animal_type, number_animals):
+def build_game_tree(board, root, animal_type, number_animals):
     animal_id = 1
     had_turn = False
-    root = TreeNode(animal_type, -1, False, copy.deepcopy(board))
 
     # check all alternatives for this round
     while animal_id <= number_animals:
@@ -69,15 +81,15 @@ def build_game_tree(board, animal_type, number_animals):
             had_turn = True
             moved_board = tf.move(copy.deepcopy(board), pos, step_width)
             moved_node = TreeNode(
-                animal_type, animal_id, True, copy.deepcopy(moved_board)
+                animal_type, animal_id, False, copy.deepcopy(moved_board)
             )
             # let opponent take turn to this alternative
-            opponent_node = build_game_tree(
+            moved_node = build_game_tree(
                 moved_board,
+                moved_node,
                 tf.swap_animal_type(animal_type),
                 number_animals
             )
-            moved_node.add_alternative(opponent_node)
             root.add_alternative(moved_node)
 
         animal_id = animal_id + 1
@@ -89,11 +101,12 @@ def build_game_tree(board, animal_type, number_animals):
 
 
 def main():
-    board = ['t1', 't2', 't3', '#', '#', '#', 'f1', 'f2', 'f3']
+    board = ['t1', 't2', 't3', '#', '#', 'f1', 'f2', 'f3']
     number_animals = 3
     animal_type = tf.TOAD
 
-    print(build_game_tree(board, animal_type, number_animals))
+    root = TreeNode(animal_type, -1, True, copy.deepcopy(board))
+    print(build_game_tree(board, root, animal_type, number_animals))
 
 
 if __name__ == '__main__':
