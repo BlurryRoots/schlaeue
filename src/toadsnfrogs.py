@@ -1,21 +1,75 @@
 from sys import maxsize
 
 
+class Player():
+    def __init__(self, animal_type):
+        self.animal_type = animal_type
+
+
+class HumanPlayer(Player):
+    def next_move(self, board):
+        pos = self.ask_move(board)
+        steps = board.can_move(pos)
+        print('moving {0} by {1} steps'.format(pos, steps))
+        return board.move(pos, steps)
+
+    def ask_move(self, board):
+        pos = -1
+        steps = 0
+        while True:
+            print('which one do you want to move?')
+            raw_choice = input()
+            try:
+                pos = int(float(raw_choice))
+                steps = board.can_move(pos)
+            except:
+                pass
+
+            if self.animal_type is Toad and steps > 0:
+                break
+            elif self.animal_type is Frog and steps < 0:
+                break
+            print('incorrect input, try again!')
+        return pos
+
+
+class ComputerPlayer(Player):
+    def next_move(self, board):
+        print('thinking...')
+        return self.make_move(board)
+
+    def make_move(self, board):
+        moves = board.get_possible_moves(self.animal_type.direction)
+        print('possible moves: {0}'.format(moves))
+        best_move = None
+        best_score = 0
+        for move in moves:
+            score = score_for_move(board, move)
+            if score >= best_score:
+                best_score = score
+                best_move = move
+        if best_move is None:
+            best_move = moves[0]
+        print('moving {0} with score of {1}'.format(best_move, score))
+        steps = board.can_move(best_move)
+        return board.move(best_move, steps)
+
+
 class Frog():
-    """ computer player """
+    direction = -1
+
     def __init__(self, nr):
         self._nr = nr
-        self.playernum = -1
 
     def __str__(self):
         return 'F{}'.format(self._nr)
 
 
 class Toad():
-    """ human player """
+    direction = 1
+
     def __init__(self, nr):
         self._nr = nr
-        self.playernum = 1
 
     def __str__(self):
         return 'T{}'.format(self._nr)
@@ -23,7 +77,7 @@ class Toad():
 
 class Space():
     def __init__(self):
-        self.playernum = 0
+        self.direction = 0
 
     def __str__(self):
         return '__'
@@ -57,16 +111,16 @@ class Board():
 
     def get_direction(self, pos):
         if self.is_toad(pos):
-            return 1
+            return Toad.direction
         elif self.is_frog(pos):
-            return -1
+            return Frog.direction
         else:
             return 0
 
     def get_possible_moves(self, playernum):
         moves = []
         for i in range(len(self.board)):
-            if self.board[i].playernum == playernum and self.can_move(i):
+            if self.board[i].direction == playernum and self.can_move(i):
                 moves.append(i)
         return moves
 
@@ -136,51 +190,6 @@ def minimax(board, depth, maximizingPlayer):
             val = minimax(board_after_move, depth - 1, True)
             bestValue = min(bestValue, val)
         return bestValue
-
-
-def ask_move(board):
-    pos = -1
-    steps = 0
-    while True:
-        print('which one do you want to move?')
-        raw_choice = input()
-        try:
-            pos = int(float(raw_choice))
-            steps = board.can_move(pos)
-        except:
-            pass
-
-        # TODO: doesnt that prohibit us from moving frogs as player?
-        if steps > 0:
-            break
-        print('incorrect input, try again!')
-    return pos
-
-
-def next_move(board, player):
-    if player == 1:
-        pos = ask_move(board)
-        steps = board.can_move(pos)
-        print('moving {0} by {1} steps'.format(pos, steps))
-
-        return board.move(pos, steps)
-    elif player == -1:
-        print('thinking...')
-        return make_move(board)
-
-
-def make_move(board):
-    moves = board.get_possible_moves(-1)
-    best_move = None
-    best_score = 0
-    for move in moves:
-        score = score_for_move(board, move)
-        if score >= best_score:
-            best_score = score
-            best_move = move
-    print('moving {0} with score of {1}'.format(best_move, score))
-    steps = board.can_move(best_move)
-    return board.move(best_move, steps)
 
 
 def score_for_move(board, move):

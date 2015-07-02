@@ -80,5 +80,19 @@ class TestToadsFrogs(unittest.TestCase):
         board = Board([t1, space, t2, f1, space, f2])
         self.assertEqual(board.get_possible_moves(1), [0, 2])
 
+    def test_get_possible_moves2(self):
+        t1 = Toad(1)
+        t2 = Toad(2)
+        t3 = Toad(3)
+        f1 = Frog(1)
+        f2 = Frog(2)
+        f3 = Frog(3)
+        space = Space()
+
+        board = Board([t1, space, space, t2, f1, f2, space, t3, f3, space])
+        self.assertIsNotNone(board.get_possible_moves(-1))
+        self.assertEqual(board.get_possible_moves(-1), [4, 8])
+
+
 if __name__ == '__main__':
     unittest.main()
